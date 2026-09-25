@@ -4,6 +4,22 @@ window.PROJECTS = [
   // ── Side A: solo ──
   {
     side: "a",
+    title: "Nombook",
+    format: "iOS App · on the App Store",
+    img: "assets/img/nombook-og.png",
+    skills: ["Swift", "SwiftUI", "SwiftData", "CloudKit", "Vision"],
+    desc: [
+      "A cozy little recipe diary for iPhone — a recipe keeper, meal planner and cooking diary in one. Save the dishes you actually cook, plan the week, shop from the list, cook step by step with timers, and write down how each one went.",
+      "Recipes can be typed, pasted, saved from a link or scanned from a cookbook page or handwritten card, with photo scanning done on device. Every recipe gets its own photo or one of 110+ hand-drawn covers, and each cook is logged with half-star ratings, notes and photos.",
+      "Every feature is free: no account, no ads, no subscription and nothing tracked.",
+    ],
+    links: [
+      { label: "App Store", href: "https://apps.apple.com/us/app/nombook-recipe-keeper-diary/id6792402315" },
+      { label: "Website", href: "https://www.nombook.app/" },
+    ],
+  },
+  {
+    side: "a",
     title: "Wheel of Dinner",
     format: "iOS App",
     img: "assets/img/wheel-of-dinner.png",

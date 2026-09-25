@@ -349,25 +349,94 @@ body.is-open .page { opacity: 1; transform: none; pointer-events: auto; visibili
 .tabs button[aria-current="true"] .ico { color: #c9d8b6; }
 
 .page-scroll { flex: 1; overflow-y: auto; overscroll-behavior: contain; scrollbar-color: rgba(100, 125, 82, 0.35) transparent; }
-.page-head {
-  max-width: 1120px;
-  margin: 0 auto;
-  padding: clamp(48px, 9vh, 90px) 40px 20px;
-  display: flex;
-  flex-direction: column;
+/* page header: a slice of garden sky with the building turning on its own little island */
+.page-hero {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 480px);
   align-items: center;
-  text-align: center;
+  gap: 24px;
+  padding: clamp(28px, 5vh, 56px) max(40px, calc((100% - 1120px) / 2)) 150px;
+  background:
+    radial-gradient(60% 80% at 75% 40%, rgba(255, 255, 255, 0.45), transparent 70%),
+    linear-gradient(180deg, #cdd6c7 0%, #d9dfd0 55%, #e6e6d6 100%);
+  overflow: hidden;
 }
-.page-head .kicker { justify-content: center; }
-.page-head h2 {
-  margin: 4px 0 14px;
+/* soft grassy edge where the hedge stands */
+.page-hero::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 30px;
+  background: linear-gradient(180deg, #a9bf8e, #9db585);
+  border-radius: 50% 50% 0 0 / 10px 10px 0 0;
+  box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.35) inset;
+}
+.hero-text { position: relative; z-index: 2; }
+.hero-text .kicker { margin-bottom: 10px; }
+.page-hero h2 {
+  margin: 0 0 14px;
   font-family: var(--display);
   font-weight: 500;
-  font-size: clamp(3rem, 7vw, 5.4rem);
-  line-height: 0.95;
-  letter-spacing: -0.01em;
+  font-size: clamp(3.2rem, 7vw, 5.8rem);
+  line-height: 0.92;
+  letter-spacing: -0.012em;
 }
-.page-body { max-width: 1120px; margin: 0 auto; padding: 10px 40px 20px; }
+.hero-lede {
+  margin: 16px 0 0;
+  max-width: 26em;
+  font-family: var(--display);
+  font-style: italic;
+  font-size: clamp(1.3rem, 2.2vw, 1.7rem);
+  line-height: 1.3;
+  color: var(--ink-soft);
+}
+.hero-lede:empty { display: none; }
+.hero-diorama { position: relative; z-index: 1; height: clamp(260px, 42vh, 400px); }
+#vignette { display: block; width: 100%; height: 100%; cursor: grab; touch-action: pan-y; }
+#vignette.dragging { cursor: grabbing; }
+.diorama-hint {
+  position: absolute;
+  right: 6%;
+  bottom: -6px;
+  margin: 0;
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 0.98rem;
+  color: var(--ink-faint);
+}
+.hedge { position: absolute; left: 0; right: 0; bottom: 20px; height: 160px; pointer-events: none; z-index: 0; }
+.hedge-item { position: absolute; bottom: 0; height: auto; transform: translateX(-50%); filter: drop-shadow(0 4px 3px rgba(60, 80, 50, 0.2)); }
+.keepsake { display: block; height: auto; user-select: none; -webkit-user-drag: none; }
+section > .lede { display: none; }
+@media (max-width: 860px) {
+  .page-hero { grid-template-columns: 1fr; padding: 24px 22px 120px; gap: 0; text-align: center; }
+  .hero-text { order: 2; }
+  .hero-text .kicker { justify-content: center; }
+  .hero-text .ornament { margin: 0 auto; }
+  .hero-lede { margin-inline: auto; }
+  .hero-diorama { height: 240px; margin-bottom: 6px; }
+  .diorama-hint { display: none; }
+  .hedge { height: 110px; }
+  .hedge-item { max-width: 88px; }
+}
+
+/* garnishes inside the pages */
+.xp-group > h3 { display: block; }
+.group-prop { width: 64px; margin: 16px 0 0 4px; }
+.h3-prop { width: 30px; margin: -10px 0 -6px 0; }
+.contact-letter { width: 110px; margin: 0 auto 26px; }
+.foot-garnish { display: flex; justify-content: center; align-items: flex-end; gap: 0; margin: -96px auto 26px; height: 96px; pointer-events: none; }
+.foot-flowers { width: 84px; margin-right: -10px; }
+.foot-cat { width: 62px; }
+.foot-pot { width: 50px; margin-left: 4px; }
+@media (max-width: 760px) {
+  .group-prop { width: 70px; float: right; margin: -40px 0 0; }
+}
+
+.page-body { max-width: 1120px; margin: 0 auto; padding: 56px 40px 20px; }
 .page-body > section { display: none; }
 .page-body > section.is-active { display: block; animation: fade-in 0.8s var(--ease); }
 @keyframes fade-in { from { opacity: 0; transform: translateY(10px); } }
@@ -411,7 +480,7 @@ section > .lede { max-width: 30em; margin: 0 auto 48px !important; text-align: c
 
 .page-foot {
   max-width: 1120px;
-  margin: 60px auto 0;
+  margin: 150px auto 0;
   padding: 50px 40px 60px;
   border-top: 1px solid var(--hair);
   text-align: center;
@@ -436,7 +505,6 @@ section > .lede { max-width: 30em; margin: 0 auto 48px !important; text-align: c
   .back { padding: 2px; }
   .back > span:last-child { display: none; }
   .tabs button { padding: 7px 12px; font-size: 0.95rem; }
-  .page-head { padding: 40px 22px 10px; }
   .page-body { padding: 0 22px; }
   .page-foot { padding: 40px 22px 50px; }
   section > .lede { margin-bottom: 32px !important; }

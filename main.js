@@ -32,6 +32,7 @@
     $("#page-kicker").textContent = sec.dataset.kicker;
     $("#page-icon").setAttribute("href", "#i-" + id);
     $("#page-title").textContent = sec.dataset.title;
+    $("#page-lede").textContent = sec.dataset.lede || $(":scope > .lede", sec)?.textContent || "";
     const next = ORDER[(ORDER.indexOf(id) + 1) % ORDER.length];
     $("#next").dataset.to = next;
     $("#next-name").textContent = `${NAMES[next]} →`;

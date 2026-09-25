@@ -14,6 +14,9 @@ rendered live with three.js. Every building on the island is a section of the si
 
 The garden is the menu. Hover a building to lift it, and click it: the camera glides over and the
 section opens as a full reading page, with tabs to move between sections and a way back to the garden.
+Each page header has its building turning on a little island of its own, and low-poly keepsakes
+(trees, flowers, a potted plant, books, a lantern, the cat, a letter) are rendered from the same
+models into images that decorate the pages.
 A cat strolls round the fountain, the chimney smokes and the trees sway.
 
 ## Structure
@@ -22,7 +25,7 @@ A cat strolls round the fountain, the chimney smokes and the trees sway.
 index.html   intro, dock, icon sprite, and every section page's content (all real HTML)
 data.js      projects, dance / choir videos, songs — edit here to add things
 main.js      section pages & tabs, dock, deep links (#work, #play…), project & media modal
-scene.js     the three.js island: buildings, paths, trees, flowers, life, camera
+scene.js     the three.js island, the page-header diorama and the rendered keepsakes
 styles.css   typography and layout
 assets/      images, demo videos (re-encoded to 720p), résumé PDF
 ```

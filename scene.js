@@ -415,11 +415,11 @@ function init() {
 
   /* ───────────── Trees, bushes, lamps, benches ───────────── */
   const sway = [];
-  function tree(x, z, type, s) {
+  function tree(x, z, type, s, parent = world) {
     const g = new THREE.Group();
     g.position.set(x, 0, z);
     g.rotation.y = rnd() * 6;
-    world.add(g);
+    parent.add(g);
     const crown = new THREE.Group();
     g.add(crown);
     if (type === "round") {
@@ -438,7 +438,8 @@ function init() {
       mesh(cyl(0.12 * s, 0.16 * s, 0.8 * s, 5), C.trunk, g, { y: 0.4 * s });
       mesh(new THREE.SphereGeometry(0.8 * s, 7, 5), C.leaf3, crown, { y: 2.3 * s }).scale.set(1, 2.1, 1);
     }
-    sway.push({ crown, phase: rnd() * 6, amp: range(0.015, 0.03) });
+    if (parent === world) sway.push({ crown, phase: rnd() * 6, amp: range(0.015, 0.03) });
+    return g;
   }
   for (let a = 0; a < Math.PI * 2; a += 0.21) {
     const r = range(18, 20.6);
@@ -587,6 +588,243 @@ function init() {
     sway.forEach(({ crown, phase, amp }) => (crown.rotation.z = Math.sin(t * 0.8 + phase) * amp));
   });
 
+  /* ───────────── Keepsakes: 3D pieces for the section pages ───────────── */
+  // Small props built from the same shapes as the garden. They're rendered once into
+  // images that decorate the pages, and a second renderer shows each section's building
+  // on a little turning island in the page header.
+  function flowerClump(g, n = 16, r = 0.8) {
+    for (let i = 0; i < n; i++) {
+      const a = rnd() * 6.28, d = Math.sqrt(rnd()) * r;
+      if (rnd() < 0.3) mesh(new THREE.ConeGeometry(0.1, 0.62, 5), pick(["#8c75c0", "#9d86c9"]), g, { x: Math.cos(a) * d, y: 0.31, z: Math.sin(a) * d });
+      else mesh(new THREE.IcosahedronGeometry(0.17, 0), pick(BLOOMS), g, { x: Math.cos(a) * d, y: range(0.2, 0.4), z: Math.sin(a) * d, rx: rnd() });
+    }
+    for (let i = 0; i < 8; i++) mesh(new THREE.ConeGeometry(0.08, 0.45, 4), pick([C.leaf1, C.leaf3]), g, { x: range(-r, r), y: 0.2, z: range(-r, r), rz: range(-0.3, 0.3) });
+  }
+  const PROPS = {
+    round: (g) => tree(0, 0, "round", 1, g),
+    pine: (g) => tree(0, 0, "pine", 1, g),
+    blossom: (g) => tree(0, 0, "blossom", 1, g),
+    cypress: (g) => tree(0, 0, "cypress", 1, g),
+    flowers: (g) => flowerClump(g, 22, 0.9),
+    bush: (g) => {
+      [[0, 0.5, 0, 0.7], [0.6, 0.4, 0.2, 0.5], [-0.55, 0.38, 0.1, 0.5]].forEach(([x, y, z, r]) => mesh(new THREE.IcosahedronGeometry(r, 0), pick([C.leaf1, C.leaf2]), g, { x, y, z }));
+      for (let i = 0; i < 5; i++) mesh(new THREE.IcosahedronGeometry(0.12, 0), pick(BLOOMS), g, { x: range(-0.8, 0.8), y: range(0.5, 0.9), z: 0.55 });
+    },
+    pot: (g) => {
+      mesh(cyl(0.45, 0.33, 0.6, 9), C.terracotta, g, { y: 0.3 });
+      mesh(cyl(0.5, 0.5, 0.12, 9), "#c98468", g, { y: 0.62 });
+      mesh(new THREE.IcosahedronGeometry(0.5, 0), C.leaf2, g, { y: 1.05 });
+      mesh(new THREE.IcosahedronGeometry(0.34, 0), C.leaf1, g, { x: 0.3, y: 1.35, z: 0.1 });
+      mesh(new THREE.IcosahedronGeometry(0.13, 0), "#f0afc2", g, { x: -0.2, y: 1.45, z: 0.3 });
+    },
+    sprout: (g) => {
+      mesh(cyl(0.38, 0.3, 0.5, 8), "#d8b56a", g, { y: 0.25 });
+      mesh(cyl(0.03, 0.03, 0.7, 4), C.leaf3, g, { y: 0.8 });
+      [[-1, 0.5], [1, -0.5]].forEach(([k, r]) => mesh(new THREE.SphereGeometry(0.22, 6, 4), C.leaf2, g, { x: k * 0.2, y: 1.15, rz: r }).scale.set(1.4, 0.5, 0.8));
+    },
+    books: (g) => {
+      ["#c0765a", "#6b8458", "#d8b56a", "#5c6f86", "#a08bd0"].forEach((c, i) => mesh(box(1.1 - i * 0.06, 0.2, 0.8), c, g, { y: 0.1 + i * 0.2, ry: range(-0.35, 0.35) }));
+      mesh(cyl(0.16, 0.12, 0.25, 8), C.plaster, g, { x: 0.25, y: 1.12 });
+    },
+    lantern: (g) => {
+      mesh(cyl(0.07, 0.09, 2.4, 6), C.ink, g, { y: 1.2 });
+      mesh(box(0.42, 0.52, 0.42), null, g, { y: 2.6, m: glowM });
+      mesh(new THREE.ConeGeometry(0.36, 0.3, 4), C.ink, g, { y: 3.0, ry: Math.PI / 4 });
+      flowerClump(g, 8, 0.5);
+    },
+    cat: (g) => {
+      const fur = "#df9a5a", pale = "#f3cfa6";
+      mesh(cyl(0.3, 0.44, 0.72, 7), fur, g, { y: 0.36 });
+      mesh(cyl(0.2, 0.28, 0.5, 7), pale, g, { y: 0.34, z: 0.2 });
+      mesh(new THREE.SphereGeometry(0.34, 8, 6), fur, g, { y: 0.95 }).scale.set(1.08, 0.92, 1);
+      [-0.17, 0.17].forEach((x) => mesh(new THREE.ConeGeometry(0.11, 0.24, 4), fur, g, { x, y: 1.3, ry: Math.PI / 4 }));
+      [-0.12, 0.12].forEach((x) => mesh(new THREE.SphereGeometry(0.045, 6, 4), C.ink, g, { x, y: 0.99, z: 0.3 }));
+      mesh(new THREE.ConeGeometry(0.04, 0.05, 3), "#e89aa6", g, { y: 0.91, z: 0.33, rx: Math.PI / 2 });
+      mesh(new THREE.TorusGeometry(0.42, 0.07, 5, 12, Math.PI * 1.1), fur, g, { y: 0.06, rx: -Math.PI / 2, rz: 0.2 });
+      [-0.14, 0.14].forEach((x) => mesh(new THREE.SphereGeometry(0.1, 6, 4), pale, g, { x, y: 0.06, z: 0.36 }));
+    },
+    letter: (g) => {
+      const e = new THREE.Group();
+      e.rotation.set(0.95, -0.35, 0.12);
+      g.add(e);
+      mesh(box(1.3, 0.05, 0.86), "#fbf7ee", e, {});
+      const flap = prismGeo(1.3, 0.5, 0.02).rotateX(Math.PI / 2);
+      mesh(flap, null, e, { y: 0.035, z: -0.43, m: mat("#efe7d6") });
+      mesh(new THREE.SphereGeometry(0.1, 8, 6), C.red, e, { y: 0.06, z: 0.05 }).scale.set(1, 0.4, 1);
+    },
+    note: (g) => {
+      mesh(new THREE.SphereGeometry(0.26, 10, 8), C.ink, g, {}).scale.set(1.25, 0.85, 1);
+      mesh(box(0.06, 1, 0.06), C.ink, g, { x: 0.28, y: 0.5 });
+      mesh(box(0.36, 0.09, 0.06), C.ink, g, { x: 0.44, y: 0.95, rz: -0.45 });
+    },
+  };
+
+  function keepsakeLights(sc) {
+    sc.add(new THREE.HemisphereLight("#f7f3e8", "#7d8f6c", 1.75));
+    const d = new THREE.DirectionalLight("#fff3dd", 2.3);
+    d.position.set(-8, 14, 10);
+    sc.add(d);
+    return d;
+  }
+
+  function cropped(src) {
+    const c = document.createElement("canvas");
+    c.width = src.width;
+    c.height = src.height;
+    const x = c.getContext("2d");
+    x.drawImage(src, 0, 0);
+    const { data, width, height } = x.getImageData(0, 0, c.width, c.height);
+    let x0 = width, y0 = height, x1 = 0, y1 = 0;
+    for (let y = 0; y < height; y++) for (let i = 0; i < width; i++) {
+      if (data[(y * width + i) * 4 + 3] > 8) { if (i < x0) x0 = i; if (i > x1) x1 = i; if (y < y0) y0 = y; if (y > y1) y1 = y; }
+    }
+    if (x1 < x0) return src.toDataURL("image/png");
+    const pad = 4, w = x1 - x0 + 1 + pad * 2, h = y1 - y0 + 1 + pad;
+    const out = document.createElement("canvas");
+    out.width = w;
+    out.height = h;
+    out.getContext("2d").drawImage(c, x0 - pad, y0 - pad, w, h, 0, 0, w, h);
+    return out.toDataURL("image/png");
+  }
+  // render every prop into an image, once, when the browser has a quiet moment
+  const propImages = {};
+  function renderProps() {
+    let r;
+    try { r = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true }); } catch { return; }
+    r.setPixelRatio(2);
+    Object.entries(PROPS).forEach(([name, build]) => {
+      const sc = new THREE.Scene();
+      keepsakeLights(sc);
+      const g = new THREE.Group();
+      sc.add(g);
+      build(g);
+      const sphere = new THREE.Box3().setFromObject(g).getBoundingSphere(new THREE.Sphere());
+      const cam = new THREE.PerspectiveCamera(26, 1, 0.1, 200);
+      const dist = (sphere.radius / Math.sin(THREE.MathUtils.degToRad(13))) * 0.98;
+      const az = 0.65, el = 0.38;
+      cam.position.set(sphere.center.x + Math.sin(az) * Math.cos(el) * dist, sphere.center.y + Math.sin(el) * dist, sphere.center.z + Math.cos(az) * Math.cos(el) * dist);
+      cam.lookAt(sphere.center);
+      r.setSize(220, 220, false);
+      r.render(sc, cam);
+      propImages[name] = cropped(r.domElement);
+    });
+    r.dispose();
+    r.forceContextLoss();
+    decoratePages();
+  }
+  function prop(name, cls) {
+    const img = document.createElement("img");
+    img.src = propImages[name];
+    img.alt = "";
+    img.className = "keepsake " + (cls || "");
+    img.setAttribute("aria-hidden", "true");
+    return img;
+  }
+  function decoratePages() {
+    // a hedge of trees and flowers along the foot of the page header
+    const hedge = document.getElementById("hedge");
+    if (hedge) {
+      [["blossom", 3, 84], ["round", 8.5, 70], ["flowers", 13, 58], ["bush", 17, 50], ["sprout", 44, 22], ["flowers", 80, 54], ["cypress", 86, 34], ["round", 91, 66], ["pine", 96.5, 56]].forEach(([n, x, w]) => {
+        const img = prop(n, "hedge-item");
+        img.style.left = x + "%";
+        img.style.width = w + "px";
+        hedge.appendChild(img);
+      });
+    }
+    const foot = document.getElementById("foot-garnish");
+    if (foot) ["flowers", "cat", "pot"].forEach((n) => foot.appendChild(prop(n, "foot-" + n)));
+    const cycle = ["pot", "lantern", "books", "sprout", "flowers"];
+    document.querySelectorAll(".xp-group > h3").forEach((h, i) => h.appendChild(prop(cycle[i % cycle.length], "group-prop")));
+    const inline = { studies: ["books", "letter"], play: ["flowers", "note", "note"] };
+    Object.entries(inline).forEach(([sec, names]) =>
+      document.querySelectorAll(`[data-section="${sec}"] h3`).forEach((h, i) => h.prepend(prop(names[i % names.length], "h3-prop"))));
+    const lede = document.querySelector('[data-section="contact"] .contact-links');
+    if (lede) lede.before(prop("letter", "contact-letter"));
+  }
+  (window.requestIdleCallback || ((f) => setTimeout(f, 1200)))(renderProps, { timeout: 2500 });
+
+  // the turning island in each page header
+  const vignette = (() => {
+    const vc = document.getElementById("vignette");
+    if (!vc) return null;
+    let vr;
+    try { vr = new THREE.WebGLRenderer({ canvas: vc, antialias: true, alpha: true }); } catch { vc.remove(); return null; }
+    vr.setPixelRatio(Math.min(devicePixelRatio, 2));
+    vr.shadowMap.enabled = true;
+    vr.shadowMap.type = THREE.PCFSoftShadowMap;
+    const vs = new THREE.Scene();
+    const dl = keepsakeLights(vs);
+    dl.castShadow = true;
+    dl.shadow.mapSize.set(1024, 1024);
+    Object.assign(dl.shadow.camera, { left: -9, right: 9, top: 9, bottom: -9, near: 1, far: 40 });
+    dl.shadow.normalBias = 0.03;
+    const vcam = new THREE.PerspectiveCamera(26, 1, 0.1, 200);
+    const holder = new THREE.Group();
+    vs.add(holder);
+    mesh(cyl(6.2, 6, 0.7, 44), C.grass, holder, { y: -0.35, cast: false });
+    mesh(cyl(6, 4.4, 1.9, 30), C.dirt, holder, { y: -1.65, cast: false });
+    mesh(new THREE.ConeGeometry(4.4, 3.4, 20, 2), C.dirtDark, holder, { y: -4.3, rx: Math.PI, cast: false });
+    tree(-4.3, -2.6, "round", 0.75, holder);
+    tree(4.4, -2.4, "pine", 0.7, holder);
+    tree(-3.9, 3, "blossom", 0.6, holder);
+    const clump = new THREE.Group();
+    clump.position.set(4, 0, 2.8);
+    holder.add(clump);
+    flowerClump(clump, 16, 0.9);
+    [[1.2, 4.8], [2.1, 5.3], [0.3, 5.4]].forEach(([x, z]) => mesh(cyl(0.45, 0.5, 0.1, 7), C.stone, holder, { x, y: 0.03, z }));
+    const stage = new THREE.Group();
+    holder.add(stage);
+
+    let spin = 0.35, vel = 0, drag = null, t = 0;
+    function show(id) {
+      stage.clear();
+      const L = byId[id];
+      if (!L) return;
+      const c = L.group.clone(true);
+      c.position.set(0, 0, 0);
+      c.rotation.set(0, 0, 0);
+      c.scale.setScalar(1);
+      const size = new THREE.Box3().setFromObject(c).getSize(new THREE.Vector3());
+      c.scale.setScalar(Math.min(2.2, 6.4 / Math.max(size.x, size.z)));
+      stage.add(c);
+      spin = 0.35;
+    }
+    function resize() {
+      const w = vc.clientWidth, h = vc.clientHeight;
+      if (!w || !h) return;
+      vr.setSize(w, h, false);
+      vcam.aspect = w / h;
+      vcam.updateProjectionMatrix();
+    }
+    new ResizeObserver(resize).observe(vc);
+    vc.addEventListener("pointerdown", (e) => { drag = { x: e.clientX, spin }; vc.setPointerCapture(e.pointerId); vc.classList.add("dragging"); });
+    vc.addEventListener("pointermove", (e) => {
+      if (!drag) return;
+      const next = drag.spin + (e.clientX - drag.x) * 0.012;
+      vel = next - spin;
+      spin = next;
+    });
+    const end = () => { drag = null; vc.classList.remove("dragging"); };
+    vc.addEventListener("pointerup", end);
+    vc.addEventListener("pointercancel", end);
+    addEventListener("garden:focus", (e) => show(e.detail));
+    return {
+      tick(dt) {
+        t += dt;
+        if (!drag) {
+          vel *= 1 - Math.min(1, dt * 2.5);
+          spin += vel + (reduceMotion ? 0 : dt * 0.16);
+        }
+        holder.rotation.y = spin;
+        holder.position.y = reduceMotion ? 0 : Math.sin(t * 0.9) * 0.15;
+        const el = 0.5, dist = 7.6 / Math.tan(THREE.MathUtils.degToRad(13)) / Math.min(1, vcam.aspect);
+        vcam.position.set(0, 1 + Math.sin(el) * dist, Math.cos(el) * dist);
+        vcam.lookAt(0, 0.4, 0);
+        vr.render(vs, vcam);
+      },
+    };
+  })();
+
   /* ───────────── Labels ───────────── */
   let hoverFromUI = null;
   LANDMARKS.forEach((L) => {
@@ -718,6 +956,7 @@ function init() {
   function frame(now) {
     const dt = Math.min(0.05, (now - last) / 1000);
     last = now;
+    if (vignette && document.body.classList.contains("is-open")) vignette.tick(dt);
     // a page fully covers the garden: rest until it's back
     if (document.body.classList.contains("page-shown")) {
       requestAnimationFrame(frame);

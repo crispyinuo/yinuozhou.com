@@ -96,14 +96,22 @@
       </nav>
     </header>
     <div class="page-scroll" id="page-scroll">
-      <div class="page-head">
-        <p class="kicker"><svg class="ico" aria-hidden="true"><use id="page-icon" href="#i-about" /></svg><span id="page-kicker"></span></p>
-        <h2 id="page-title"></h2>
-        <svg class="ornament" aria-hidden="true"><use href="#sprig" /></svg>
+      <div class="page-hero">
+        <div class="hero-text">
+          <p class="kicker"><svg class="ico" aria-hidden="true"><use id="page-icon" href="#i-about" /></svg><span id="page-kicker"></span></p>
+          <h2 id="page-title"></h2>
+          <svg class="ornament" aria-hidden="true"><use href="#sprig" /></svg>
+          <p class="hero-lede" id="page-lede"></p>
+        </div>
+        <div class="hero-diorama">
+          <canvas id="vignette" aria-hidden="true"></canvas>
+          <p class="diorama-hint" aria-hidden="true">drag to turn</p>
+        </div>
+        <div class="hedge" id="hedge" aria-hidden="true"></div>
       </div>
       <div class="page-body" id="page-body">
 
-      <section data-section="about" data-kicker="The cottage" data-title="Hello, I'm Zoe">
+      <section data-section="about" data-kicker="The cottage" data-title="Hello, I'm Zoe" data-lede="Come in, the kettle's on.">
         <div class="about-grid">
         <figure class="polaroid">
           <img src="assets/img/zoe.jpg" alt="Zoe holding a steamed bun with chopsticks" width="683" height="1024" loading="lazy" />
@@ -136,7 +144,7 @@
         </div>
       </section>
 
-      <section data-section="experience" data-kicker="The workshop" data-title="Experience">
+      <section data-section="experience" data-kicker="The workshop" data-title="Experience" data-lede="Where I've built, shipped, taught and learned so far.">
         <div class="xp-group">
           <h3>Software</h3>
           <div class="xp-roles">
@@ -291,7 +299,7 @@
         <div class="works" id="works"></div>
       </section>
 
-      <section data-section="studies" data-kicker="The reading nook" data-title="Education">
+      <section data-section="studies" data-kicker="The reading nook" data-title="Education" data-lede="Where I studied, and a few things I picked up along the way.">
         <div class="two-col">
         <div>
         <h3>Degrees</h3>
@@ -343,6 +351,7 @@
       </section>
       </div>
       <footer class="page-foot">
+        <div class="foot-garnish" id="foot-garnish" aria-hidden="true"></div>
         <button class="next" id="next"><span class="kicker">Next stop</span><b id="next-name"></b></button>
         <p>© <span id="year">2026</span> Zoe Zhou · built by hand with three.js</p>
       </footer>

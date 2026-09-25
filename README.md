@@ -1,35 +1,39 @@
-# ZOE.FM — yinuozhou.com
+# yinuozhou.com
 
-Zoe Zhou's personal site, rebuilt from the old WordPress version as a hand-made static site.
-The whole site is a record: sections are tracks, experience is a discography, projects are
-albums (solo releases vs. "feat." collabs), and the Play section is a dark stage for dance, choir and songs.
+Zoe Zhou's personal site: a quiet sea beneath ink-wash mountains, rendered live with three.js.
 
-**Things to poke at**
-- Press `A`–`K` anywhere (or tap the keys) to play the pocket synth.
-- Click the vinyl to drop the needle.
-- Drag the skill stickers around.
-- Click any album cover for the liner notes and demo.
+Scrolling moves the day along. Dawn is the introduction, morning is experience, the golden
+afternoon is work, dusk is play, and night is contact. Touch the water to leave a ripple, and
+turn on sound in the top-right corner to make each ripple ring a soft chime.
 
 ## Structure
 
 ```
 index.html   page markup (experience, education, certificates are written inline)
-data.js      projects, dance / choir videos, songs, skills — edit here to add things
-main.js      synth, stickers, album modal, tabs, now-playing bar
-styles.css   everything visual
-assets/      images, demo videos (re-encoded to 720p), resume PDF
+data.js      projects, dance / choir videos, songs — edit here to add things
+main.js      page behaviour: project & media modal, lists, header state, water chimes
+scene.js     the three.js scene: sky, stars, mountains, water shader, ripples, time of day
+styles.css   typography and layout
+assets/      images, demo videos (re-encoded to 720p), résumé PDF
 ```
 
-No build step, no dependencies. Run it locally with:
+No build step. three.js loads from jsDelivr through an import map. Run it locally with:
 
 ```sh
 python3 -m http.server 8000
 ```
 
+Without WebGL, the page falls back to a static gradient and stays fully readable.
+
 ## Adding a project
 
-Append an object to `window.PROJECTS` in `data.js`. `side: "a"` for solo, `side: "b"` for group work
-(with `feat: [...]`). Media is either `video` (local mp4), `youtube` (video id) or just the cover image.
+Append an object to `window.PROJECTS` in `data.js`. Media is either `video` (local mp4),
+`youtube` (video id) or just the cover image. `feat` lists collaborators and `award` notes a prize.
+
+## Tuning the scene
+
+The times of day are the `KEYS` array at the top of `scene.js`, one entry per section:
+sky, horizon, sun position, water and mountain colours. Mountain layers live in `LAYERS`.
 
 ## Deploying
 

@@ -415,6 +415,7 @@ function init() {
 
   /* ───────────── Trees, bushes, lamps, benches ───────────── */
   const sway = [];
+  const obstacles = []; // things the cat walks around: { x, z, r }
   function tree(x, z, type, s, parent = world) {
     const g = new THREE.Group();
     g.position.set(x, 0, z);
@@ -438,7 +439,10 @@ function init() {
       mesh(cyl(0.12 * s, 0.16 * s, 0.8 * s, 5), C.trunk, g, { y: 0.4 * s });
       mesh(new THREE.SphereGeometry(0.8 * s, 7, 5), C.leaf3, crown, { y: 2.3 * s }).scale.set(1, 2.1, 1);
     }
-    if (parent === world) sway.push({ crown, phase: rnd() * 6, amp: range(0.015, 0.03) });
+    if (parent === world) {
+      sway.push({ crown, phase: rnd() * 6, amp: range(0.015, 0.03) });
+      obstacles.push({ x, z, r: 0.75 * s });
+    }
     return g;
   }
   for (let a = 0; a < Math.PI * 2; a += 0.21) {
@@ -547,15 +551,61 @@ function init() {
     // legs swing from the hip, not the middle
     const legGeo = box(0.12, 0.34, 0.12).translate(0, -0.17, 0);
     const legs = [[0.32, 0.14], [0.32, -0.14], [-0.32, 0.14], [-0.32, -0.14]].map(([x, z]) => mesh(legGeo, fur, cat, { x, y: 0.34, z }));
-    let a = 1, walk = 1, stride = 0;
+    // wanders the whole island: picks a spot, strolls there around anything in the way,
+    // then sits a moment and looks about before choosing the next one
+    const avoid = [
+      { x: 0, z: 0, r: 3.4 }, // fountain
+      ...LANDMARKS.map((L) => ({ x: L.pos[0], z: L.pos[1], r: L.r * 0.9 })),
+      { x: -2.4, z: R - 1.2, r: 0.7 }, { x: 2.4, z: R - 1.2, r: 0.7 }, // gate pillars
+      ...obstacles,
+    ];
+    const EDGE = R - 2.2;
+    const free = (x, z, pad) => Math.hypot(x, z) < EDGE - pad && avoid.every((o) => Math.hypot(x - o.x, z - o.z) > o.r + pad);
+    function pickTarget() {
+      for (let i = 0; i < 60; i++) {
+        const ang = Math.random() * Math.PI * 2, r = Math.sqrt(Math.random()) * EDGE;
+        const x = Math.cos(ang) * r, z = Math.sin(ang) * r;
+        if (free(x, z, 1) && Math.hypot(x - pos.x, z - pos.y) > 4) return new THREE.Vector2(x, z);
+      }
+      return new THREE.Vector2(RING, 0);
+    }
+    const pos = new THREE.Vector2(RING, 0.5);
+    let heading = Math.PI / 2, target = pickTarget(), rest = 0, walk = 1, stride = 0, best = Infinity, stuck = 0;
+    const want = new THREE.Vector2(), away = new THREE.Vector2();
     animated.push((t, dt) => {
-      // strolls around the fountain, easing to a stop now and then to look around
-      const wantWalk = Math.sin(t * 0.13) > -0.55 ? 1 : 0;
-      walk += (wantWalk - walk) * Math.min(1, dt * 2);
-      a += dt * 0.12 * walk;
+      if (rest > 0) {
+        rest -= dt;
+        if (rest <= 0) { target = pickTarget(); best = Infinity; stuck = 0; }
+      }
+      walk += ((rest > 0 ? 0 : 1) - walk) * Math.min(1, dt * 2);
+
+      want.subVectors(target, pos);
+      const d = want.length();
+      if (rest <= 0 && d < 0.5) rest = 2 + Math.random() * 5;
+      want.normalize();
+      // gently push away from anything close
+      avoid.forEach((o) => {
+        away.set(pos.x - o.x, pos.y - o.z);
+        const gap = away.length() - o.r;
+        if (gap < 1.4) want.addScaledVector(away.normalize(), (1.4 - gap) * 1.6);
+      });
+      const fromCentre = pos.length();
+      if (fromCentre > EDGE - 1.5) want.addScaledVector(away.copy(pos).normalize(), -(fromCentre - EDGE + 1.5) * 2);
+      // turn smoothly toward where it wants to go
+      let turn = Math.atan2(want.y, want.x) - heading;
+      turn = Math.atan2(Math.sin(turn), Math.cos(turn));
+      heading += Math.sign(turn) * Math.min(Math.abs(turn), dt * 2.4 * walk);
+      const speed = 0.75 * walk * (0.55 + 0.45 * Math.max(0, Math.cos(turn))); // slow down for sharp turns
+      pos.x += Math.cos(heading) * speed * dt;
+      pos.y += Math.sin(heading) * speed * dt;
+      // if it can't get any closer for a while, choose somewhere else
+      if (rest <= 0) {
+        if (d < best - 0.05) { best = d; stuck = 0; } else if ((stuck += dt) > 5) { target = pickTarget(); best = Infinity; stuck = 0; }
+      }
+
       stride += dt * 7 * walk;
-      cat.position.set(Math.cos(a) * RING, 0.06, Math.sin(a) * RING);
-      cat.rotation.y = -a - Math.PI / 2; // face along the path
+      cat.position.set(pos.x, 0.06, pos.y);
+      cat.rotation.y = -heading; // head (+x) points along the heading
       // diagonal pairs move together, like a real trot
       legs.forEach((l, i) => (l.rotation.z = Math.sin(stride + (i === 0 || i === 3 ? 0 : Math.PI)) * 0.5 * walk));
       bodyG.position.y = Math.abs(Math.sin(stride)) * 0.03 * walk;

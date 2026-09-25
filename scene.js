@@ -530,25 +530,37 @@ function init() {
 
   /* ───────────── Life: a cat, butterflies, clouds ───────────── */
   {
+    // a little black cat, head toward +x
     const cat = new THREE.Group();
     world.add(cat);
-    const fur = "#df9a5a";
-    const body = mesh(box(0.95, 0.42, 0.42), fur, cat, { y: 0.52 });
-    mesh(box(0.42, 0.38, 0.4), fur, cat, { x: 0.56, y: 0.78 });
-    [-0.12, 0.12].forEach((z) => mesh(new THREE.ConeGeometry(0.09, 0.2, 4), fur, cat, { x: 0.6, y: 1.04, z }));
-    [0.1, -0.1].forEach((z) => mesh(box(0.06, 0.06, 0.06), C.ink, cat, { x: 0.78, y: 0.8, z, cast: false }));
-    const tail = mesh(cyl(0.05, 0.07, 0.7, 5), fur, cat, { x: -0.62, y: 0.85, rz: 0.7 });
-    const legs = [[0.32, 0.14], [0.32, -0.14], [-0.32, 0.14], [-0.32, -0.14]].map(([x, z]) => mesh(box(0.12, 0.34, 0.12), fur, cat, { x, y: 0.17, z }));
-    let a = 1;
+    const fur = "#2e2c33", eye = "#e8d36a";
+    const bodyG = new THREE.Group(); // everything above the legs bobs together
+    cat.add(bodyG);
+    mesh(box(0.95, 0.42, 0.42), fur, bodyG, { y: 0.52 });
+    const head = new THREE.Group();
+    head.position.set(0.56, 0.78, 0);
+    bodyG.add(head);
+    mesh(box(0.42, 0.38, 0.4), fur, head, {});
+    [-0.12, 0.12].forEach((z) => mesh(new THREE.ConeGeometry(0.09, 0.2, 4), fur, head, { x: 0.04, y: 0.26, z }));
+    [0.1, -0.1].forEach((z) => mesh(box(0.06, 0.07, 0.06), null, head, { x: 0.2, y: 0.03, z, cast: false, m: mat(eye, { emissive: eye, emissiveIntensity: 0.35 }) }));
+    const tail = mesh(cyl(0.05, 0.07, 0.7, 5).translate(0, 0.35, 0), fur, bodyG, { x: -0.44, y: 0.62, rz: 0.7 });
+    // legs swing from the hip, not the middle
+    const legGeo = box(0.12, 0.34, 0.12).translate(0, -0.17, 0);
+    const legs = [[0.32, 0.14], [0.32, -0.14], [-0.32, 0.14], [-0.32, -0.14]].map(([x, z]) => mesh(legGeo, fur, cat, { x, y: 0.34, z }));
+    let a = 1, walk = 1, stride = 0;
     animated.push((t, dt) => {
-      // strolls around the fountain, pausing now and then
-      const walking = Math.sin(t * 0.13) > -0.55;
-      if (walking) a += dt * 0.12;
+      // strolls around the fountain, easing to a stop now and then to look around
+      const wantWalk = Math.sin(t * 0.13) > -0.55 ? 1 : 0;
+      walk += (wantWalk - walk) * Math.min(1, dt * 2);
+      a += dt * 0.12 * walk;
+      stride += dt * 7 * walk;
       cat.position.set(Math.cos(a) * RING, 0.06, Math.sin(a) * RING);
-      cat.rotation.y = -a - Math.PI;
-      legs.forEach((l, i) => (l.rotation.z = walking ? Math.sin(t * 7 + ((i + (i > 1 ? 1 : 0)) % 2) * Math.PI) * 0.45 : 0));
-      body.position.y = 0.52 + (walking ? Math.abs(Math.sin(t * 7)) * 0.03 : 0);
-      tail.rotation.x = Math.sin(t * 1.6) * 0.35;
+      cat.rotation.y = -a - Math.PI / 2; // face along the path
+      // diagonal pairs move together, like a real trot
+      legs.forEach((l, i) => (l.rotation.z = Math.sin(stride + (i === 0 || i === 3 ? 0 : Math.PI)) * 0.5 * walk));
+      bodyG.position.y = Math.abs(Math.sin(stride)) * 0.03 * walk;
+      head.rotation.y = Math.sin(t * 0.7) * 0.45 * (1 - walk);
+      tail.rotation.x = Math.sin(t * 1.6) * (0.25 + 0.2 * (1 - walk));
     });
   }
   for (let i = 0; i < 5; i++) {
@@ -633,12 +645,12 @@ function init() {
       flowerClump(g, 8, 0.5);
     },
     cat: (g) => {
-      const fur = "#df9a5a", pale = "#f3cfa6";
+      const fur = "#2e2c33", pale = "#4a4750";
       mesh(cyl(0.3, 0.44, 0.72, 7), fur, g, { y: 0.36 });
       mesh(cyl(0.2, 0.28, 0.5, 7), pale, g, { y: 0.34, z: 0.2 });
       mesh(new THREE.SphereGeometry(0.34, 8, 6), fur, g, { y: 0.95 }).scale.set(1.08, 0.92, 1);
       [-0.17, 0.17].forEach((x) => mesh(new THREE.ConeGeometry(0.11, 0.24, 4), fur, g, { x, y: 1.3, ry: Math.PI / 4 }));
-      [-0.12, 0.12].forEach((x) => mesh(new THREE.SphereGeometry(0.045, 6, 4), C.ink, g, { x, y: 0.99, z: 0.3 }));
+      [-0.12, 0.12].forEach((x) => mesh(new THREE.SphereGeometry(0.05, 6, 4), null, g, { x, y: 0.99, z: 0.3, m: mat("#e8d36a", { emissive: "#e8d36a", emissiveIntensity: 0.35 }) }));
       mesh(new THREE.ConeGeometry(0.04, 0.05, 3), "#e89aa6", g, { y: 0.91, z: 0.33, rx: Math.PI / 2 });
       mesh(new THREE.TorusGeometry(0.42, 0.07, 5, 12, Math.PI * 1.1), fur, g, { y: 0.06, rx: -Math.PI / 2, rz: 0.2 });
       [-0.14, 0.14].forEach((x) => mesh(new THREE.SphereGeometry(0.1, 6, 4), pale, g, { x, y: 0.06, z: 0.36 }));

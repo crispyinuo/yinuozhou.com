@@ -9,8 +9,9 @@ window.PROJECTS = [
     img: "assets/img/nombook-og.png",
     skills: ["Swift", "SwiftUI", "SwiftData", "CloudKit", "Vision"],
     desc: [
-      "A cozy little recipe diary for iPhone — a recipe keeper, meal planner and cooking diary in one. Save the dishes you actually cook, plan the week, shop from the list, cook step by step with timers, and write down how each one went.",
-      "Recipes can be typed, pasted, saved from a link or scanned from a cookbook page or handwritten card, with photo scanning done on device. Every recipe gets its own photo or one of 110+ hand-drawn covers, and each cook is logged with half-star ratings, notes and photos.",
+      "A cozy little recipe diary for iPhone — a recipe keeper, meal planner and cooking diary in one. Solo-built and launched in 7 languages, reaching thousands of App Store downloads.",
+      "Save the dishes you actually cook, plan the week, shop from the list, cook step by step with timers, and write down how each one went.",
+      "Recipes can be typed, pasted, saved from a link or scanned from a cookbook page or handwritten card, with OCR done on device and private iCloud sync — serverless and account-free. Every recipe gets its own photo or one of 110+ hand-drawn covers, and each cook is logged with half-star ratings, notes and photos.",
       "Every feature is free: no account, no ads, no subscription and nothing tracked.",
     ],
     links: [
@@ -24,7 +25,7 @@ window.PROJECTS = [
     format: "iOS App",
     img: "assets/img/wheel-of-dinner.png",
     fit: "contain",
-    skills: ["Swift", "Yelp API", "Google Places API", "Firebase"],
+    skills: ["Swift", "MapKit", "CoreLocation", "Firebase", "Yelp API"],
     desc: [
       "Having trouble deciding what to eat? Couldn't reach an agreement when eating out as a group? Find a list of your favorite restaurants nearby and let Wheel of Dinner decide for you!",
       "Wheel of Dinner is a random restaurant-generating app. It recommends restaurants based on the location you enter, adds them to a list, and finally picks where you're eating.",
@@ -85,7 +86,7 @@ window.PROJECTS = [
     img: "assets/img/harmony-blocks.png",
     feat: ["Christian Yang", "Helena Su"],
     award: "🏆 1st Prize · Immerse The Bay @ Stanford (Ultraleap for Entertainment track)",
-    skills: ["Unity Engine", "C#", "Blender"],
+    skills: ["Unity Engine", "C#", "Ultraleap SDK", "Blender"],
     desc: [
       "Using Unity and Ultraleap's Unity package, we sculpted a virtual space where physics and sound coalesce.",
       "The key was integrating advanced hand tracking through Ultraleap's external camera, allowing intuitive, natural interaction with our virtual instruments.",

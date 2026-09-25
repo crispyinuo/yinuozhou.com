@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Zoe Zhou</title>
-  <meta name="description" content="Zoe Zhou — software engineer at Meta, XR tinkerer, songwriter, choir singer and dancer. A little garden of everything she's made." />
+  <meta name="description" content="Zoe Zhou — software engineer at Luma AI, XR tinkerer, songwriter, choir singer and dancer. A little garden of everything she's made." />
   <meta property="og:title" content="Zoe Zhou" />
   <meta property="og:description" content="A little garden of everything I've made." />
   <meta property="og:type" content="website" />
@@ -114,9 +114,10 @@
         <p>I build for screens and headsets, write songs, sing in choirs, and dance whenever I can.</p>
         <dl class="facts">
           <dt>Currently</dt>
-          <dd><a href="https://www.meta.com/about/" target="_blank" rel="noopener">Meta</a></dd>
+          <dd><a href="https://lumalabs.ai/" target="_blank" rel="noopener">Luma AI</a></dd>
           <dt>Previously</dt>
           <dd>
+            <a href="https://www.meta.com/about/" target="_blank" rel="noopener">Meta</a>,
             <a href="https://www.apple.com/" target="_blank" rel="noopener">Apple</a>,
             <a href="https://www.home.nextplate.app/" target="_blank" rel="noopener">NextPlate</a>,
             <a href="https://www.tencent.com/en-us/" target="_blank" rel="noopener">Tencent</a>,
@@ -125,9 +126,10 @@
         </dl>
         <h3>Technical skills</h3>
         <dl class="skills">
-          <dt>Languages</dt><dd>Java · Swift · C++ · C# · JavaScript · R · Kotlin · HTML5 · Python · CSS3 · SQL</dd>
-          <dt>Tools</dt><dd>Git · Unity · Firebase · MongoDB · Figma</dd>
-          <dt>Frameworks</dt><dd>React · Vue.js · Node.js · Next.js</dd>
+          <dt>Languages</dt><dd>TypeScript · JavaScript · Python · Swift · PHP · GraphQL · SQL · Java · C# · C++ · HTML/CSS</dd>
+          <dt>Frontend</dt><dd>React · Next.js · Vue.js · SwiftUI · tldraw · responsive &amp; mobile web · accessibility · i18n</dd>
+          <dt>Backend &amp; data</dt><dd>Node.js · PostgreSQL · Redis · Temporal · AWS S3 · OAuth 2.0 · MCP · Docker · PostHog · Statsig · Figma</dd>
+          <dt>Mobile, graphics &amp; XR</dt><dd>SwiftData · CloudKit · ARKit · RealityKit · Unity · Unreal · OpenGL · OpenCV</dd>
         </dl>
         <p class="links-row">
           <a class="link" href="assets/docs/Zoe-Zhou-Resume.pdf" target="_blank" rel="noopener">View résumé ↗</a>
@@ -141,19 +143,36 @@
           <h3>Software</h3>
           <div class="xp-roles">
         <details class="role" open>
-          <summary><span class="org">Meta</span><span class="when">2024 — now</span><span class="title">Software Engineer</span></summary>
+          <summary><span class="org">Luma AI</span><span class="when">2026 — now</span><span class="title">Software Engineer (Full-Stack) · Redwood City</span></summary>
           <div class="body">
-            <p>Build features on Facebook that businesses use to create ads, letting them connect directly with customers through Messenger.</p>
+            <ul>
+              <li>Led engineering on Mini Apps for Luma's AI image and video generation platform: one-click creative tools like Camera Angles and Relight, taken from prototype to paid launch in 1.5 weeks.</li>
+              <li>Built out Luma's connector platform so creators move generated images and video between the AI canvas and Google Drive, Dropbox and Frame.io, via agent tools, streamed exports and one shared OAuth connect flow.</li>
+              <li>Scoped and built custom MCP connectors end to end, letting users plug any remote MCP server into the AI agent: OAuth discovery with dynamic client registration, authless servers, and the stateless MCP wire format.</li>
+              <li>Designed the MCP security model: DNS-rebinding-safe SSRF guard, Redis sliding-window rate limiting, and cross-server taint tracking against prompt injection.</li>
+              <li>Integrated multilingual text-to-speech (Seed Audio) end to end, with 20 voices and usage billing on generated audio duration.</li>
+            </ul>
+            <a class="link" href="https://lumalabs.ai/" target="_blank" rel="noopener">lumalabs.ai ↗</a>
+          </div>
+        </details>
+        <details class="role" open>
+          <summary><span class="org">Meta</span><span class="when">2024 — 26</span><span class="title">Software Engineer, Facebook Ads · Menlo Park</span></summary>
+          <div class="body">
+            <ul>
+              <li>Workstream Lead for the Facebook Lightweight Ad Creation interface, independently driving end-to-end product execution across ideation, scoping, PRD authoring, rapid prototyping and launch; used SQL analysis to measure experiment impact, validate hypotheses and inform roadmap priorities.</li>
+              <li>Shipped Click-to-Messenger ad features that drove ~$2M in incremental ads revenue, directly increasing advertiser adoption.</li>
+              <li>Delivered end-to-end web and mobile solutions with JavaScript, PHP, GraphQL and React, partnering with product, design, data science and ML teams to prioritize and ship the highest-impact experiments.</li>
+              <li>Used AI coding agents (Claude Code and others) extensively to run 7–8 concurrent workstreams, greatly accelerating iteration across a large project portfolio.</li>
+            </ul>
             <a class="link" href="https://www.meta.com" target="_blank" rel="noopener">meta.com ↗</a>
           </div>
         </details>
         <details class="role" open>
-          <summary><span class="org">Apple</span><span class="when">2023</span><span class="title">Software Engineer Intern, Apple Maps</span></summary>
+          <summary><span class="org">Apple</span><span class="when">2023</span><span class="title">Software Engineer Intern, Apple Maps · Cupertino</span></summary>
           <div class="body">
             <ul>
-              <li>Developed a user-friendly front-end web portal for place searching with Vue.js, the Composition API, Solr API, JavaScript and SCSS, used by thousands of Apple employees daily for efficient map data management.</li>
-              <li>Implemented map layers, ensuring seamless integration and accurate representation of geographical data.</li>
-              <li>Engineered a robust search page and implemented search queries, facilitating quick and precise data retrieval.</li>
+              <li>Built an internal Vue.js/Solr web app for searching and managing Points of Interest, adopted company-wide for map data operations.</li>
+              <li>Ran user interviews and redesigned key workflows, cutting clicks for common tasks by 50%; added map layers with drawing and spatial search.</li>
             </ul>
             <a class="link" href="https://www.apple.com" target="_blank" rel="noopener">apple.com ↗</a>
             <a class="link" href="https://www.apple.com/maps/" target="_blank" rel="noopener">Apple Maps ↗</a>
@@ -164,9 +183,7 @@
           <div class="body">
             <p>Joined a start-up that reduces food waste by partnering with restaurants and selling surplus food at discounted prices.</p>
             <ul>
-              <li>Designed the UI/UX for the help-center client and admin portals in Figma.</li>
-              <li>Structured and developed the help-center backend with Node.js and Firebase.</li>
-              <li>Launched a product used by 50+ restaurants, including Subway and Jersey Mike's.</li>
+              <li>Designed and built the help-center client and admin portals in Figma, React, Next.js and Node.js, used by 50+ restaurants including Subway and Jersey Mike's.</li>
             </ul>
             <a class="link" href="https://www.home.nextplate.app/" target="_blank" rel="noopener">nextplate.app ↗</a>
           </div>
@@ -244,6 +261,15 @@
           <h3>Research &amp; publications</h3>
           <div class="xp-roles">
         <details class="role" open>
+          <summary><span class="org">OpenARK Lab, UC Berkeley</span><span class="when">2023 — 24</span><span class="title">Frontend Developer &amp; Algorithms Researcher, FHL Vive Center for Enhanced Reality</span></summary>
+          <div class="body">
+            <ul>
+              <li>Led DTTDNet development, fine-tuning 3D localization to 85% tracking accuracy on a digital-twin RGB-D dataset captured with ZED2 cameras.</li>
+              <li>Built a HoloLens 2 AR interface for Leo Rover's Martian exploration using Unity and Mixed Reality Toolkit.</li>
+            </ul>
+          </div>
+        </details>
+        <details class="role" open>
           <summary><span class="org">KDD-UC</span><span class="when">2022</span><span class="title">Did your child get disturbed by an inappropriate advertisement on YouTube?</span></summary>
           <div class="body">
             <p class="cite">Jeffrey Liu, Rajat Tandon, Uma Durairaj, Jiani Guo, Spencer Zahabizadeh, Sanjana Ilango, Jeremy Tang, Neelesh Gupta, <b>Zoe Zhou</b>, Jelena Mirkovic. 2022. <i>Did your child get disturbed by an inappropriate advertisement on YouTube?</i> In Proceedings of KDD Undergraduate Consortium (KDD-UC). ACM, New York, NY, USA, 7 pages.</p>
@@ -300,7 +326,8 @@
           <div>
             <p class="school-name">University of California, Berkeley <span>’24</span></p>
             <p>Fung Institute for Engineering Leadership — M.Eng. in Electrical Engineering &amp; Computer Sciences</p>
-            <p class="quiet">Track: Visual Computing &amp; Computer Graphics</p>
+            <p class="quiet">Track: Visual Computing &amp; Computer Graphics · GPA 3.99 / 4.0</p>
+            <p class="quiet">Courses: VR &amp; Immersive Computing, Computer Graphics, Computer Vision</p>
           </div>
         </div>
         <div class="school">
@@ -308,7 +335,7 @@
           <div>
             <p class="school-name">University of Southern California <span>’23</span></p>
             <p>Viterbi School of Engineering — B.S. in Computer Science / Business Administration</p>
-            <p class="quiet">Minor in Mobile App Development (Viterbi) · Minor in Songwriting (Thornton School of Music)</p>
+            <p class="quiet">Minor in Mobile App Development (Viterbi) · Minor in Songwriting (Thornton School of Music) · GPA 3.87 / 4.0</p>
           </div>
         </div>
         </div>

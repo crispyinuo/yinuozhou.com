@@ -594,7 +594,7 @@ function init() {
     b.className = "label";
     b.type = "button";
     b.tabIndex = -1; // the dock is the keyboard route
-    b.innerHTML = `<b>${L.name}</b><span>${L.sub}</span>`;
+    b.innerHTML = `<svg class="ico" aria-hidden="true"><use href="#i-${L.id}" /></svg><b>${L.name}</b><span>${L.sub}</span>`;
     b.addEventListener("click", () => window.garden.open(L.id));
     b.addEventListener("pointerenter", () => (hoverFromUI = L.id));
     b.addEventListener("pointerleave", () => (hoverFromUI = null));
@@ -628,18 +628,12 @@ function init() {
       goal.el = 0.74;
       goal.az = 0;
     } else {
+      // glide down toward the building; the page then rises over the scene
       const L = byId[focusId];
-      const narrow = innerWidth < 700;
-      goal.dist = narrow ? Math.max(44, fitDist() * 0.45) : 38;
-      goal.el = 0.82;
-      goal.az = Math.max(-0.5, Math.min(0.5, Math.atan2(L.pos[0], 30) * 0.6));
-      // pan so the building sits beside the panel rather than under it
-      const halfH = goal.dist * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2));
-      const right = new THREE.Vector3(Math.cos(goal.az), 0, -Math.sin(goal.az));
-      const fwd = new THREE.Vector3(-Math.sin(goal.az), 0, -Math.cos(goal.az));
       goal.target.set(L.pos[0], 1.5, L.pos[1]);
-      if (narrow) goal.target.addScaledVector(fwd, (-halfH * 0.6) / Math.sin(goal.el));
-      else goal.target.addScaledVector(right, halfH * camera.aspect * Math.min(0.55, 530 / innerWidth));
+      goal.dist = innerWidth < 700 ? Math.max(40, fitDist() * 0.4) : 30;
+      goal.el = 0.8;
+      goal.az = Math.max(-0.5, Math.min(0.5, Math.atan2(L.pos[0], 30) * 0.6));
     }
   }
   function placeCamera() {
@@ -724,6 +718,11 @@ function init() {
   function frame(now) {
     const dt = Math.min(0.05, (now - last) / 1000);
     last = now;
+    // a page fully covers the garden: rest until it's back
+    if (document.body.classList.contains("page-shown")) {
+      requestAnimationFrame(frame);
+      return;
+    }
     t += reduceMotion ? dt * 0.25 : dt;
     animated.forEach((f) => f(t, dt));
 

@@ -14,18 +14,50 @@
   <link rel="icon" href="assets/img/logo.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
   <script type="importmap">
     { "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" } }
   </script>
 </head>
 <body class="is-intro">
+  <!-- line icons & ornaments, drawn once and reused -->
+  <svg class="sprite" aria-hidden="true" focusable="false">
+    <symbol id="sprig" viewBox="0 0 140 20">
+      <path d="M0 10 H50 M90 10 H140" fill="none" stroke="currentColor" stroke-width=".8" />
+      <path d="M70 10 C64 3 57 3 53 10 C57 16 64 16 70 10 Z M70 10 C76 3 83 3 87 10 C83 16 76 16 70 10 Z" fill="none" stroke="currentColor" stroke-width=".9" />
+      <path d="M53 10 H87" fill="none" stroke="currentColor" stroke-width=".6" />
+      <circle cx="70" cy="10" r="1.8" fill="currentColor" />
+    </symbol>
+    <symbol id="leaf" viewBox="0 0 16 16">
+      <path d="M3 13 C3 7 7 3 13 3 C13 9 9 13 3 13 Z M3 13 L10 6" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
+    </symbol>
+    <symbol id="i-about" viewBox="0 0 24 24">
+      <path d="M3.5 11 L12 4 L20.5 11 M5.5 9.5 V20 H18.5 V9.5 M10 20 V14.5 H14 V20 M15.5 6.2 V4 H17.5 V7.8" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round" stroke-linecap="round" />
+    </symbol>
+    <symbol id="i-experience" viewBox="0 0 24 24">
+      <path d="M3 7 H21 M3 4.5 H21 M5 7 V20 M19 7 V20 M7.5 14 H16.5 M9 14 L9.8 11 H14.2 L15 14 M7 20 H17" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round" stroke-linecap="round" />
+    </symbol>
+    <symbol id="i-work" viewBox="0 0 24 24">
+      <path d="M3 20 V11 L12 5 L21 11 V20 Z M7.5 8 V20 M12 5 V20 M16.5 8 V20 M3 14.5 H21" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round" />
+    </symbol>
+    <symbol id="i-studies" viewBox="0 0 24 24">
+      <path d="M3.5 5.5 C6.5 4.5 9.5 5 12 6.8 C14.5 5 17.5 4.5 20.5 5.5 V19 C17.5 18 14.5 18.5 12 20.2 C9.5 18.5 6.5 18 3.5 19 Z M12 6.8 V20.2" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round" />
+    </symbol>
+    <symbol id="i-play" viewBox="0 0 24 24">
+      <path d="M9 17.5 V6 L19 4 V15.5" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round" />
+      <ellipse cx="6.8" cy="17.8" rx="2.3" ry="1.8" fill="none" stroke="currentColor" stroke-width="1.3" />
+      <ellipse cx="16.8" cy="15.8" rx="2.3" ry="1.8" fill="none" stroke="currentColor" stroke-width="1.3" />
+    </symbol>
+    <symbol id="i-contact" viewBox="0 0 24 24">
+      <path d="M3.5 6.5 H20.5 V17.5 H3.5 Z M3.5 6.5 L12 13 L20.5 6.5" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round" />
+    </symbol>
+  </svg>
   <canvas id="garden" aria-hidden="true"></canvas>
   <div id="labels" class="labels" aria-hidden="true"></div>
 
   <header class="corner">
-    <a class="brand" href="#" id="home-link">Zoe Zhou</a>
+    <a class="brand" href="#" id="home-link"><span class="seal" aria-hidden="true">Z</span>Zoe Zhou</a>
     <span class="brand-sub">a small garden of things I've made</span>
   </header>
 
@@ -33,33 +65,51 @@
   <div class="intro" id="intro">
     <p class="kicker">Welcome to the garden of</p>
     <h1>Zoe Zhou</h1>
+    <svg class="ornament" aria-hidden="true"><use href="#sprig" /></svg>
     <p class="intro-sub">Software engineer at Meta — and a songwriter, choir singer and dancer on the side.<br />Wander around; every little building opens.</p>
     <button class="enter" id="enter">Enter the garden <span aria-hidden="true">→</span></button>
   </div>
 
   <!-- Map legend / accessible navigation -->
   <nav class="dock" id="dock" aria-label="Garden sections">
-    <button data-open="about"><b>Cottage</b><span>About</span></button>
-    <button data-open="experience"><b>Workshop</b><span>Experience</span></button>
-    <button data-open="work"><b>Greenhouse</b><span>Projects</span></button>
-    <button data-open="studies"><b>Reading nook</b><span>Education</span></button>
-    <button data-open="play"><b>Gazebo</b><span>Play</span></button>
-    <button data-open="contact"><b>Mailbox</b><span>Contact</span></button>
+    <button data-open="about"><svg class="ico" aria-hidden="true"><use href="#i-about" /></svg><b>Cottage</b><span>About</span></button>
+    <button data-open="experience"><svg class="ico" aria-hidden="true"><use href="#i-experience" /></svg><b>Workshop</b><span>Experience</span></button>
+    <button data-open="work"><svg class="ico" aria-hidden="true"><use href="#i-work" /></svg><b>Greenhouse</b><span>Projects</span></button>
+    <button data-open="studies"><svg class="ico" aria-hidden="true"><use href="#i-studies" /></svg><b>Reading nook</b><span>Education</span></button>
+    <button data-open="play"><svg class="ico" aria-hidden="true"><use href="#i-play" /></svg><b>Gazebo</b><span>Play</span></button>
+    <button data-open="contact"><svg class="ico" aria-hidden="true"><use href="#i-contact" /></svg><b>Mailbox</b><span>Contact</span></button>
   </nav>
 
-  <p class="hint" id="hint">Drag to look around · click a building</p>
+  <p class="hint" id="hint"><svg class="ico" aria-hidden="true"><use href="#leaf" /></svg>drag to look around · click a building</p>
 
-  <!-- Panels -->
-  <aside class="panel" id="panel" aria-labelledby="panel-title" hidden>
-    <div class="panel-head">
-      <p class="kicker" id="panel-kicker"></p>
-      <h2 id="panel-title"></h2>
-      <button class="panel-close" id="panel-close" aria-label="Close and return to the garden">✕</button>
-    </div>
-    <div class="panel-body" id="panel-body">
+  <!-- Section pages: the garden is the menu, each building opens a full page -->
+  <main class="page" id="page" aria-labelledby="page-title" hidden>
+    <header class="page-bar">
+      <button class="back" id="back"><span class="back-map" aria-hidden="true"></span><span>Back to the garden</span></button>
+      <nav class="tabs" aria-label="Sections">
+        <button data-tab="about"><svg class="ico" aria-hidden="true"><use href="#i-about" /></svg>About</button>
+        <button data-tab="experience"><svg class="ico" aria-hidden="true"><use href="#i-experience" /></svg>Experience</button>
+        <button data-tab="work"><svg class="ico" aria-hidden="true"><use href="#i-work" /></svg>Projects</button>
+        <button data-tab="studies"><svg class="ico" aria-hidden="true"><use href="#i-studies" /></svg>Education</button>
+        <button data-tab="play"><svg class="ico" aria-hidden="true"><use href="#i-play" /></svg>Play</button>
+        <button data-tab="contact"><svg class="ico" aria-hidden="true"><use href="#i-contact" /></svg>Contact</button>
+      </nav>
+    </header>
+    <div class="page-scroll" id="page-scroll">
+      <div class="page-head">
+        <p class="kicker"><svg class="ico" aria-hidden="true"><use id="page-icon" href="#i-about" /></svg><span id="page-kicker"></span></p>
+        <h2 id="page-title"></h2>
+        <svg class="ornament" aria-hidden="true"><use href="#sprig" /></svg>
+      </div>
+      <div class="page-body" id="page-body">
 
       <section data-section="about" data-kicker="The cottage" data-title="Hello, I'm Zoe">
-        <img class="portrait" src="assets/img/zoe.jpg" alt="Zoe holding a steamed bun with chopsticks" width="683" height="1024" loading="lazy" />
+        <div class="about-grid">
+        <figure class="polaroid">
+          <img src="assets/img/zoe.jpg" alt="Zoe holding a steamed bun with chopsticks" width="683" height="1024" loading="lazy" />
+          <figcaption>fuelled by dumplings</figcaption>
+        </figure>
+        <div>
         <p class="lede">A full stack developer, product enthusiast and avid learner.</p>
         <p>I build for screens and headsets, write songs, sing in choirs, and dance whenever I can.</p>
         <dl class="facts">
@@ -82,10 +132,14 @@
         <p class="links-row">
           <a class="link" href="assets/docs/Zoe-Zhou-Resume.pdf" target="_blank" rel="noopener">View résumé ↗</a>
         </p>
+        </div>
+        </div>
       </section>
 
       <section data-section="experience" data-kicker="The workshop" data-title="Experience">
-        <h3>Software</h3>
+        <div class="xp-group">
+          <h3>Software</h3>
+          <div class="xp-roles">
         <details class="role" open>
           <summary><span class="org">Meta</span><span class="when">2024 — now</span><span class="title">Software Engineer</span></summary>
           <div class="body">
@@ -93,7 +147,7 @@
             <a class="link" href="https://www.meta.com" target="_blank" rel="noopener">meta.com ↗</a>
           </div>
         </details>
-        <details class="role">
+        <details class="role" open>
           <summary><span class="org">Apple</span><span class="when">2023</span><span class="title">Software Engineer Intern, Apple Maps</span></summary>
           <div class="body">
             <ul>
@@ -105,7 +159,7 @@
             <a class="link" href="https://www.apple.com/maps/" target="_blank" rel="noopener">Apple Maps ↗</a>
           </div>
         </details>
-        <details class="role">
+        <details class="role" open>
           <summary><span class="org">NextPlate</span><span class="when">2022</span><span class="title">Software Engineer</span></summary>
           <div class="body">
             <p>Joined a start-up that reduces food waste by partnering with restaurants and selling surplus food at discounted prices.</p>
@@ -117,7 +171,7 @@
             <a class="link" href="https://www.home.nextplate.app/" target="_blank" rel="noopener">nextplate.app ↗</a>
           </div>
         </details>
-        <details class="role">
+        <details class="role" open>
           <summary><span class="org">Tera Thought</span><span class="when">2022</span><span class="title">Senior Software Engineer</span></summary>
           <div class="body">
             <ul>
@@ -128,7 +182,7 @@
             <a class="link" href="https://www.terathought.com/" target="_blank" rel="noopener">terathought.com ↗</a>
           </div>
         </details>
-        <details class="role">
+        <details class="role" open>
           <summary><span class="org">Par Technology</span><span class="when">2022</span><span class="title">QA Engineer Intern</span></summary>
           <div class="body">
             <ul>
@@ -140,9 +194,12 @@
             <a class="link" href="https://partech.com/" target="_blank" rel="noopener">partech.com ↗</a>
           </div>
         </details>
-
-        <h3>Product</h3>
-        <details class="role">
+          </div>
+        </div>
+        <div class="xp-group">
+          <h3>Product</h3>
+          <div class="xp-roles">
+        <details class="role" open>
           <summary><span class="org">Tencent</span><span class="when">2021</span><span class="title">Product Intern, WeTest</span></summary>
           <div class="body">
             <ul>
@@ -154,9 +211,12 @@
             <a class="link" href="https://www.wetest.net/" target="_blank" rel="noopener">WeTest ↗</a>
           </div>
         </details>
-
-        <h3>Teaching</h3>
-        <details class="role">
+          </div>
+        </div>
+        <div class="xp-group">
+          <h3>Teaching</h3>
+          <div class="xp-roles">
+        <details class="role" open>
           <summary><span class="org">USC Viterbi</span><span class="when">2022</span><span class="title">Course Producer, CSCI 310 Software Engineering</span></summary>
           <div class="body">
             <ul>
@@ -167,7 +227,7 @@
             <a class="link" href="https://viterbischool.usc.edu/" target="_blank" rel="noopener">USC Viterbi School of Engineering ↗</a>
           </div>
         </details>
-        <details class="role">
+        <details class="role" open>
           <summary><span class="org">USC Marshall</span><span class="when">2022</span><span class="title">Teaching Assistant, BUAD 311 Operations Management</span></summary>
           <div class="body">
             <ul>
@@ -178,9 +238,12 @@
             <a class="link" href="https://www.marshall.usc.edu/" target="_blank" rel="noopener">USC Marshall School of Business ↗</a>
           </div>
         </details>
-
-        <h3>Research &amp; publications</h3>
-        <details class="role">
+          </div>
+        </div>
+        <div class="xp-group">
+          <h3>Research &amp; publications</h3>
+          <div class="xp-roles">
+        <details class="role" open>
           <summary><span class="org">KDD-UC</span><span class="when">2022</span><span class="title">Did your child get disturbed by an inappropriate advertisement on YouTube?</span></summary>
           <div class="body">
             <p class="cite">Jeffrey Liu, Rajat Tandon, Uma Durairaj, Jiani Guo, Spencer Zahabizadeh, Sanjana Ilango, Jeremy Tang, Neelesh Gupta, <b>Zoe Zhou</b>, Jelena Mirkovic. 2022. <i>Did your child get disturbed by an inappropriate advertisement on YouTube?</i> In Proceedings of KDD Undergraduate Consortium (KDD-UC). ACM, New York, NY, USA, 7 pages.</p>
@@ -189,7 +252,7 @@
             <a class="link" href="https://kdd.org/kdd2022/kdd-uc.html" target="_blank" rel="noopener">KDD Conference ↗</a>
           </div>
         </details>
-        <details class="role">
+        <details class="role" open>
           <summary><span class="org">USC i-Lab</span><span class="when">2022</span><span class="title">Research Assistant, Innovation in Integrated Informatics Lab</span></summary>
           <div class="body">
             <p class="quiet">Supervisor: Prof. Burcin Becerik-Gerber · Ph.D. student: Ala Nekouvaght Tak</p>
@@ -202,9 +265,12 @@
             <a class="link" href="https://www.i-lab.usc.edu/" target="_blank" rel="noopener">i-lab.usc.edu ↗</a>
           </div>
         </details>
-
-        <h3>Business</h3>
-        <details class="role">
+          </div>
+        </div>
+        <div class="xp-group">
+          <h3>Business</h3>
+          <div class="xp-roles">
+        <details class="role" open>
           <summary><span class="org">Ascend USC</span><span class="when">2020 — 22</span><span class="title">VP of Finance · Co-Chair of Professional Development</span></summary>
           <div class="body">
             <p class="quiet">Vice President of Finance (2021–2022) · Co-Chair of Professional Development (2020–2021)</p>
@@ -216,6 +282,8 @@
             <a class="link" href="https://www.ascendusc.org/" target="_blank" rel="noopener">ascendusc.org ↗</a>
           </div>
         </details>
+          </div>
+        </div>
       </section>
 
       <section data-section="work" data-kicker="The greenhouse" data-title="Projects">
@@ -224,6 +292,9 @@
       </section>
 
       <section data-section="studies" data-kicker="The reading nook" data-title="Education">
+        <div class="two-col">
+        <div>
+        <h3>Degrees</h3>
         <div class="school">
           <img src="assets/img/berkeley.png" alt="" width="44" height="44" loading="lazy" />
           <div>
@@ -240,6 +311,8 @@
             <p class="quiet">Minor in Mobile App Development (Viterbi) · Minor in Songwriting (Thornton School of Music)</p>
           </div>
         </div>
+        </div>
+        <div>
         <h3>Certificates</h3>
         <ul class="plain-list">
           <li><a href="https://coursera.org/share/2fb65cfa2d808011f2e096f7e02e4405" target="_blank" rel="noopener">Intro to AR/VR/MR/XR: Technologies, Applications &amp; Issues</a><span>Coursera</span></li>
@@ -247,16 +320,17 @@
           <li><a href="https://coursera.org/share/5bf854a14fff1bb2d9eb166ebc0b62ed" target="_blank" rel="noopener">Operating Systems and You: Becoming a Power User</a><span>Coursera</span></li>
           <li><a href="https://udemy-certificate.s3.amazonaws.com/pdf/UC-9b783081-17f7-45e5-a69d-734a40d52548.pdf" target="_blank" rel="noopener">Data Structures and Algorithms: Deep Dive Using Java</a><span>Udemy</span></li>
         </ul>
+        </div>
+        </div>
       </section>
 
       <section data-section="play" data-kicker="The gazebo" data-title="Play">
         <p class="lede">When the laptop closes — dance, choir, and songs I wrote.</p>
-        <h3>Dance</h3>
-        <ol class="play-list" id="list-dance"></ol>
-        <h3>Choir</h3>
-        <ol class="play-list" id="list-choir"></ol>
-        <h3>Songs</h3>
-        <ol class="play-list" id="list-songs"></ol>
+        <div class="three-col">
+          <div><h3>Dance</h3><ol class="play-list" id="list-dance"></ol></div>
+          <div><h3>Choir</h3><ol class="play-list" id="list-choir"></ol></div>
+          <div><h3>Songs</h3><ol class="play-list" id="list-songs"></ol></div>
+        </div>
       </section>
 
       <section data-section="contact" data-kicker="The mailbox" data-title="Leave me a little note">
@@ -266,10 +340,14 @@
           <li><a href="https://github.com/crispyinuo" target="_blank" rel="noopener"><b>GitHub</b><span>@crispyinuo ↗</span></a></li>
           <li><a href="assets/docs/Zoe-Zhou-Resume.pdf" target="_blank" rel="noopener"><b>Résumé</b><span>PDF ↗</span></a></li>
         </ul>
-        <p class="quiet footnote">© <span id="year">2026</span> Zoe Zhou · built by hand with three.js</p>
       </section>
+      </div>
+      <footer class="page-foot">
+        <button class="next" id="next"><span class="kicker">Next stop</span><b id="next-name"></b></button>
+        <p>© <span id="year">2026</span> Zoe Zhou · built by hand with three.js</p>
+      </footer>
     </div>
-  </aside>
+  </main>
 
   <dialog class="modal" id="modal" aria-labelledby="modal-title">
     <button class="modal-close" id="modal-close" aria-label="Close">✕</button>

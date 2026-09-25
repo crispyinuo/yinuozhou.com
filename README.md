@@ -12,15 +12,16 @@ rendered live with three.js. Every building on the island is a section of the si
 | Gazebo        | Play       |
 | Mailbox       | Contact    |
 
-Hover a building to lift it, click it to glide over and open its panel, or drag to look around.
+The garden is the menu. Hover a building to lift it, and click it: the camera glides over and the
+section opens as a full reading page, with tabs to move between sections and a way back to the garden.
 A cat strolls round the fountain, the chimney smokes and the trees sway.
 
 ## Structure
 
 ```
-index.html   intro, dock, and every panel's content (all real HTML)
+index.html   intro, dock, icon sprite, and every section page's content (all real HTML)
 data.js      projects, dance / choir videos, songs — edit here to add things
-main.js      panels, dock, deep links (#work, #play…), project & media modal
+main.js      section pages & tabs, dock, deep links (#work, #play…), project & media modal
 scene.js     the three.js island: buildings, paths, trees, flowers, life, camera
 styles.css   typography and layout
 assets/      images, demo videos (re-encoded to 720p), résumé PDF
@@ -32,7 +33,7 @@ No build step. three.js loads from jsDelivr through an import map. Run it locall
 python3 -m http.server 8000
 ```
 
-Without WebGL, the dock and panels still work over a plain background.
+Without WebGL, the dock and section pages still work over a plain background.
 
 ## Adding a project
 

@@ -1,18 +1,27 @@
 # yinuozhou.com
 
-Zoe Zhou's personal site: a quiet sea beneath ink-wash mountains, rendered live with three.js.
+Zoe Zhou's personal site: a tiny low-poly garden floating in the air, seen from above and
+rendered live with three.js. Every building on the island is a section of the site:
 
-Scrolling moves the day along. Dawn is the introduction, morning is experience, the golden
-afternoon is work, dusk is play, and night is contact. Touch the water to leave a ripple, and
-turn on sound in the top-right corner to make each ripple ring a soft chime.
+| Building      | Section    |
+| ------------- | ---------- |
+| Cottage       | About      |
+| Workshop      | Experience |
+| Greenhouse    | Projects   |
+| Reading nook  | Education  |
+| Gazebo        | Play       |
+| Mailbox       | Contact    |
+
+Hover a building to lift it, click it to glide over and open its panel, or drag to look around.
+A cat strolls round the fountain, the chimney smokes and the trees sway.
 
 ## Structure
 
 ```
-index.html   page markup (experience, education, certificates are written inline)
+index.html   intro, dock, and every panel's content (all real HTML)
 data.js      projects, dance / choir videos, songs — edit here to add things
-main.js      page behaviour: project & media modal, lists, header state, water chimes
-scene.js     the three.js scene: sky, stars, mountains, water shader, ripples, time of day
+main.js      panels, dock, deep links (#work, #play…), project & media modal
+scene.js     the three.js island: buildings, paths, trees, flowers, life, camera
 styles.css   typography and layout
 assets/      images, demo videos (re-encoded to 720p), résumé PDF
 ```
@@ -23,17 +32,17 @@ No build step. three.js loads from jsDelivr through an import map. Run it locall
 python3 -m http.server 8000
 ```
 
-Without WebGL, the page falls back to a static gradient and stays fully readable.
+Without WebGL, the dock and panels still work over a plain background.
 
 ## Adding a project
 
 Append an object to `window.PROJECTS` in `data.js`. Media is either `video` (local mp4),
 `youtube` (video id) or just the cover image. `feat` lists collaborators and `award` notes a prize.
 
-## Tuning the scene
+## Changing the garden
 
-The times of day are the `KEYS` array at the top of `scene.js`, one entry per section:
-sky, horizon, sun position, water and mountain colours. Mountain layers live in `LAYERS`.
+Colours live in `C` at the top of `scene.js`. Buildings and where they sit are in `LANDMARKS`,
+and each has its own small block below that builds it from boxes, cones and spheres.
 
 ## Deploying
 

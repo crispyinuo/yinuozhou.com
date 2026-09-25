@@ -4,312 +4,275 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Zoe Zhou</title>
-  <meta name="description" content="Zoe Zhou — software engineer at Meta, XR tinkerer, songwriter, choir singer and dancer." />
+  <meta name="description" content="Zoe Zhou — software engineer at Meta, XR tinkerer, songwriter, choir singer and dancer. A little garden of everything she's made." />
   <meta property="og:title" content="Zoe Zhou" />
-  <meta property="og:description" content="Software engineer, XR tinkerer, songwriter & dancer." />
+  <meta property="og:description" content="A little garden of everything I've made." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://yinuozhou.com/" />
   <meta property="og:image" content="assets/img/zoe-wide.jpg" />
-  <meta name="theme-color" content="#e9e1d6" />
+  <meta name="theme-color" content="#bcc6b8" />
   <link rel="icon" href="assets/img/logo.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
   <script type="importmap">
     { "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" } }
   </script>
 </head>
-<body data-tone="ink">
-  <a class="skip" href="#main">Skip to content</a>
+<body class="is-intro">
+  <canvas id="garden" aria-hidden="true"></canvas>
+  <div id="labels" class="labels" aria-hidden="true"></div>
 
-  <canvas id="scene" aria-hidden="true"></canvas>
-  <div class="scene-fallback" aria-hidden="true"></div>
-
-  <header class="topbar">
-    <a class="brand" href="#home">Zoe Zhou</a>
-    <nav aria-label="Sections">
-      <a href="#experience">Experience</a>
-      <a href="#work">Work</a>
-      <a href="#play">Play</a>
-      <a href="#contact">Contact</a>
-    </nav>
-    <button class="sound" id="sound" aria-pressed="false" title="Water chimes">
-      <span class="sound-bars" aria-hidden="true"><i></i><i></i><i></i></span>
-      <span class="sound-label">Sound off</span>
-    </button>
+  <header class="corner">
+    <a class="brand" href="#" id="home-link">Zoe Zhou</a>
+    <span class="brand-sub">a small garden of things I've made</span>
   </header>
 
-  <main id="main">
+  <!-- Welcome -->
+  <div class="intro" id="intro">
+    <p class="kicker">Welcome to the garden of</p>
+    <h1>Zoe Zhou</h1>
+    <p class="intro-sub">Software engineer at Meta — and a songwriter, choir singer and dancer on the side.<br />Wander around; every little building opens.</p>
+    <button class="enter" id="enter">Enter the garden <span aria-hidden="true">→</span></button>
+  </div>
 
-    <!-- ─────────── Dawn ─────────── -->
-    <section id="home" class="hero" data-tone="ink">
-      <p class="kicker">Software engineer · Songwriter · Dancer</p>
-      <h1>Zoe <em>Zhou</em></h1>
-      <p class="hero-lede">
-        A full stack developer, product enthusiast and avid learner.
-        I build for screens and headsets, write songs, sing in choirs,
-        and dance whenever I can.
-      </p>
-      <p class="hero-where">
-        Currently at <a href="https://www.meta.com/about/" target="_blank" rel="noopener">Meta</a>.
-        Previously
-        <a href="https://www.apple.com/" target="_blank" rel="noopener">Apple</a>,
-        <a href="https://www.home.nextplate.app/" target="_blank" rel="noopener">NextPlate</a>,
-        <a href="https://www.tencent.com/en-us/" target="_blank" rel="noopener">Tencent</a> and
-        <a href="https://partech.com/" target="_blank" rel="noopener">Par Technology</a>.
-      </p>
-      <div class="hero-actions">
-        <a class="link-line" href="assets/docs/Zoe-Zhou-Resume.pdf" target="_blank" rel="noopener">View résumé</a>
-        <a class="link-line" href="#work">Selected work</a>
-      </div>
-      <div class="scroll-cue" aria-hidden="true">
-        <span>scroll slowly</span><i></i>
-      </div>
-      <p class="water-hint" aria-hidden="true">touch the water</p>
-    </section>
+  <!-- Map legend / accessible navigation -->
+  <nav class="dock" id="dock" aria-label="Garden sections">
+    <button data-open="about"><b>Cottage</b><span>About</span></button>
+    <button data-open="experience"><b>Workshop</b><span>Experience</span></button>
+    <button data-open="work"><b>Greenhouse</b><span>Projects</span></button>
+    <button data-open="studies"><b>Reading nook</b><span>Education</span></button>
+    <button data-open="play"><b>Gazebo</b><span>Play</span></button>
+    <button data-open="contact"><b>Mailbox</b><span>Contact</span></button>
+  </nav>
 
-    <!-- ─────────── Morning: experience ─────────── -->
-    <section id="experience" class="chapter" data-tone="ink">
-      <header class="chapter-head">
-        <span class="numeral">i.</span>
-        <h2>Experience</h2>
-      </header>
+  <p class="hint" id="hint">Drag to look around · click a building</p>
 
-      <div class="paper">
-        <div class="group">
-          <h3 class="group-label">Software</h3>
-          <details class="role" open>
-            <summary><span class="when">2024 — now</span><span class="org">Meta</span><span class="title">Software Engineer</span></summary>
-            <div class="body">
-              <p>Build features on Facebook that businesses use to create ads, letting them connect directly with customers through Messenger.</p>
-              <a class="ext" href="https://www.meta.com" target="_blank" rel="noopener">meta.com</a>
-            </div>
-          </details>
-          <details class="role">
-            <summary><span class="when">2023</span><span class="org">Apple</span><span class="title">Software Engineer Intern, Apple Maps</span></summary>
-            <div class="body">
-              <ul>
-                <li>Developed a user-friendly front-end web portal for place searching with Vue.js, the Composition API, Solr API, JavaScript and SCSS, used by thousands of Apple employees daily for efficient map data management.</li>
-                <li>Implemented map layers, ensuring seamless integration and accurate representation of geographical data.</li>
-                <li>Engineered a robust search page and implemented search queries, facilitating quick and precise data retrieval.</li>
-              </ul>
-              <a class="ext" href="https://www.apple.com" target="_blank" rel="noopener">apple.com</a>
-              <a class="ext" href="https://www.apple.com/maps/" target="_blank" rel="noopener">Apple Maps</a>
-            </div>
-          </details>
-          <details class="role">
-            <summary><span class="when">2022</span><span class="org">NextPlate</span><span class="title">Software Engineer</span></summary>
-            <div class="body">
-              <p>Joined a start-up that reduces food waste by partnering with restaurants and selling surplus food at discounted prices.</p>
-              <ul>
-                <li>Designed the UI/UX for the help-center client and admin portals in Figma.</li>
-                <li>Structured and developed the help-center backend with Node.js and Firebase.</li>
-                <li>Launched a product used by 50+ restaurants, including Subway and Jersey Mike's.</li>
-              </ul>
-              <a class="ext" href="https://www.home.nextplate.app/" target="_blank" rel="noopener">nextplate.app</a>
-            </div>
-          </details>
-          <details class="role">
-            <summary><span class="when">2022</span><span class="org">Tera Thought</span><span class="title">Senior Software Engineer</span></summary>
-            <div class="body">
-              <ul>
-                <li>Led the team structuring "Shareful", a resource-sharing mobile app, with MVVM architecture.</li>
-                <li>Implemented UI components for Android and iOS using Kotlin, Jetpack Compose and Swift.</li>
-                <li>Implemented backend features with Firebase.</li>
-              </ul>
-              <a class="ext" href="https://www.terathought.com/" target="_blank" rel="noopener">terathought.com</a>
-            </div>
-          </details>
-          <details class="role">
-            <summary><span class="when">2022</span><span class="org">Par Technology</span><span class="title">QA Engineer Intern</span></summary>
-            <div class="body">
-              <ul>
-                <li>Developed an automated test suite to pinpoint defects, track bugs and validate functionality for POS software.</li>
-                <li>Carried out the automated regression testing plan in JavaScript and prototyped automatic test-script generation, producing 20 automation test cases with trivial human intervention.</li>
-                <li>Completed 68 manual tests and 20 automation test cases — 4,000+ lines of scripts and 80% test coverage.</li>
-                <li>Investigated deviations in test results and determined root causes.</li>
-              </ul>
-              <a class="ext" href="https://partech.com/" target="_blank" rel="noopener">partech.com</a>
-            </div>
-          </details>
-        </div>
+  <!-- Panels -->
+  <aside class="panel" id="panel" aria-labelledby="panel-title" hidden>
+    <div class="panel-head">
+      <p class="kicker" id="panel-kicker"></p>
+      <h2 id="panel-title"></h2>
+      <button class="panel-close" id="panel-close" aria-label="Close and return to the garden">✕</button>
+    </div>
+    <div class="panel-body" id="panel-body">
 
-        <div class="group">
-          <h3 class="group-label">Product</h3>
-          <details class="role">
-            <summary><span class="when">2021</span><span class="org">Tencent</span><span class="title">Product Intern, WeTest</span></summary>
-            <div class="body">
-              <ul>
-                <li>Led business development and outsourcing, building partnerships with 10+ potential clients through game-industry conferences, business-matching systems and LinkedIn outreach.</li>
-                <li>Proposed and facilitated B2B global marketing strategies for WeTest, Tencent's game-testing platform.</li>
-                <li>Wrote weekly blogs about QA services and game testing, boosting public exposure by 300%.</li>
-              </ul>
-              <a class="ext" href="https://www.tencent.com/en-us/" target="_blank" rel="noopener">tencent.com</a>
-              <a class="ext" href="https://www.wetest.net/" target="_blank" rel="noopener">WeTest</a>
-            </div>
-          </details>
-        </div>
+      <section data-section="about" data-kicker="The cottage" data-title="Hello, I'm Zoe">
+        <img class="portrait" src="assets/img/zoe.jpg" alt="Zoe holding a steamed bun with chopsticks" width="683" height="1024" loading="lazy" />
+        <p class="lede">A full stack developer, product enthusiast and avid learner.</p>
+        <p>I build for screens and headsets, write songs, sing in choirs, and dance whenever I can.</p>
+        <dl class="facts">
+          <dt>Currently</dt>
+          <dd><a href="https://www.meta.com/about/" target="_blank" rel="noopener">Meta</a></dd>
+          <dt>Previously</dt>
+          <dd>
+            <a href="https://www.apple.com/" target="_blank" rel="noopener">Apple</a>,
+            <a href="https://www.home.nextplate.app/" target="_blank" rel="noopener">NextPlate</a>,
+            <a href="https://www.tencent.com/en-us/" target="_blank" rel="noopener">Tencent</a>,
+            <a href="https://partech.com/" target="_blank" rel="noopener">Par Technology</a>
+          </dd>
+        </dl>
+        <h3>Technical skills</h3>
+        <dl class="skills">
+          <dt>Languages</dt><dd>Java · Swift · C++ · C# · JavaScript · R · Kotlin · HTML5 · Python · CSS3 · SQL</dd>
+          <dt>Tools</dt><dd>Git · Unity · Firebase · MongoDB · Figma</dd>
+          <dt>Frameworks</dt><dd>React · Vue.js · Node.js · Next.js</dd>
+        </dl>
+        <p class="links-row">
+          <a class="link" href="assets/docs/Zoe-Zhou-Resume.pdf" target="_blank" rel="noopener">View résumé ↗</a>
+        </p>
+      </section>
 
-        <div class="group">
-          <h3 class="group-label">Teaching</h3>
-          <details class="role">
-            <summary><span class="when">2022</span><span class="org">USC Viterbi</span><span class="title">Course Producer, CSCI 310 Software Engineering</span></summary>
-            <div class="body">
-              <ul>
-                <li>Held office hours for coding and project questions.</li>
-                <li>Answered course questions on Piazza.</li>
-                <li>Graded programming assignments and exams.</li>
-              </ul>
-              <a class="ext" href="https://viterbischool.usc.edu/" target="_blank" rel="noopener">USC Viterbi School of Engineering</a>
-            </div>
-          </details>
-          <details class="role">
-            <summary><span class="when">2022</span><span class="org">USC Marshall</span><span class="title">Teaching Assistant, BUAD 311 Operations Management</span></summary>
-            <div class="body">
-              <ul>
-                <li>Answered students' questions through Slack and email.</li>
-                <li>Proofread course materials and managed them through Blackboard.</li>
-                <li>Graded quizzes and exams on business operations.</li>
-              </ul>
-              <a class="ext" href="https://www.marshall.usc.edu/" target="_blank" rel="noopener">USC Marshall School of Business</a>
-            </div>
-          </details>
-        </div>
-
-        <div class="group">
-          <h3 class="group-label">Research &amp; publications</h3>
-          <details class="role">
-            <summary><span class="when">2022</span><span class="org">KDD-UC</span><span class="title">Did your child get disturbed by an inappropriate advertisement on YouTube?</span></summary>
-            <div class="body">
-              <p class="cite">Jeffrey Liu, Rajat Tandon, Uma Durairaj, Jiani Guo, Spencer Zahabizadeh, Sanjana Ilango, Jeremy Tang, Neelesh Gupta, <b>Zoe Zhou</b>, Jelena Mirkovic. 2022. <i>Did your child get disturbed by an inappropriate advertisement on YouTube?</i> In Proceedings of KDD Undergraduate Consortium (KDD-UC). ACM, New York, NY, USA, 7 pages.</p>
-              <a class="ext" href="https://kdd.org/kdd2022/papers/07_Jeffrey%20Liu.pdf" target="_blank" rel="noopener">Read the paper</a>
-              <a class="ext" href="https://sites.google.com/usc.edu/inappropriate--ads-work/home" target="_blank" rel="noopener">Research website</a>
-              <a class="ext" href="https://kdd.org/kdd2022/kdd-uc.html" target="_blank" rel="noopener">KDD Conference</a>
-            </div>
-          </details>
-          <details class="role">
-            <summary><span class="when">2022</span><span class="org">USC i-Lab</span><span class="title">Research Assistant, Innovation in Integrated Informatics Lab</span></summary>
-            <div class="body">
-              <p class="quiet">Supervisor: Prof. Burcin Becerik-Gerber · Ph.D. student: Ala Nekouvaght Tak</p>
-              <ul>
-                <li>Researched reinforcement learning for personalized thermal comfort systems.</li>
-                <li>Applied the Markov assumption to the RL agent's decision process and used a simple MLP to learn the policy given system states.</li>
-                <li>Designed a custom reward function based on power consumption, thermal comfort and personalized control.</li>
-                <li>Retrieved and managed intelligent-agent data using Python and InfluxDB.</li>
-              </ul>
-              <a class="ext" href="https://www.i-lab.usc.edu/" target="_blank" rel="noopener">i-lab.usc.edu</a>
-            </div>
-          </details>
-        </div>
-
-        <div class="group">
-          <h3 class="group-label">Business</h3>
-          <details class="role">
-            <summary><span class="when">2020 — 22</span><span class="org">Ascend USC</span><span class="title">VP of Finance · Co-Chair of Professional Development</span></summary>
-            <div class="body">
-              <p class="quiet">Vice President of Finance (2021–2022) · Co-Chair of Professional Development (2020–2021)</p>
-              <ul>
-                <li>Connected with professionals from PwC, Deloitte and Boeing and hosted career-development events.</li>
-                <li>Wrote budget plans; managed funding, accounts, membership fees and expenditures; hosted fundraisers.</li>
-                <li>Designed and ran the official Ascend website.</li>
-              </ul>
-              <a class="ext" href="https://www.ascendusc.org/" target="_blank" rel="noopener">ascendusc.org</a>
-            </div>
-          </details>
-        </div>
-      </div>
-
-      <div class="paper studies">
-        <div>
-          <h3 class="group-label">Education</h3>
-          <div class="school">
-            <img src="assets/img/berkeley.png" alt="" width="44" height="44" loading="lazy" />
-            <div>
-              <p class="school-name">University of California, Berkeley <span>’24</span></p>
-              <p>Fung Institute for Engineering Leadership — M.Eng. in Electrical Engineering &amp; Computer Sciences</p>
-              <p class="quiet">Track: Visual Computing &amp; Computer Graphics</p>
-            </div>
+      <section data-section="experience" data-kicker="The workshop" data-title="Experience">
+        <h3>Software</h3>
+        <details class="role" open>
+          <summary><span class="org">Meta</span><span class="when">2024 — now</span><span class="title">Software Engineer</span></summary>
+          <div class="body">
+            <p>Build features on Facebook that businesses use to create ads, letting them connect directly with customers through Messenger.</p>
+            <a class="link" href="https://www.meta.com" target="_blank" rel="noopener">meta.com ↗</a>
           </div>
-          <div class="school">
-            <img src="assets/img/usc.webp" alt="" width="44" height="44" loading="lazy" />
-            <div>
-              <p class="school-name">University of Southern California <span>’23</span></p>
-              <p>Viterbi School of Engineering — B.S. in Computer Science / Business Administration</p>
-              <p class="quiet">Minor in Mobile App Development (Viterbi) · Minor in Songwriting (Thornton School of Music)</p>
-            </div>
+        </details>
+        <details class="role">
+          <summary><span class="org">Apple</span><span class="when">2023</span><span class="title">Software Engineer Intern, Apple Maps</span></summary>
+          <div class="body">
+            <ul>
+              <li>Developed a user-friendly front-end web portal for place searching with Vue.js, the Composition API, Solr API, JavaScript and SCSS, used by thousands of Apple employees daily for efficient map data management.</li>
+              <li>Implemented map layers, ensuring seamless integration and accurate representation of geographical data.</li>
+              <li>Engineered a robust search page and implemented search queries, facilitating quick and precise data retrieval.</li>
+            </ul>
+            <a class="link" href="https://www.apple.com" target="_blank" rel="noopener">apple.com ↗</a>
+            <a class="link" href="https://www.apple.com/maps/" target="_blank" rel="noopener">Apple Maps ↗</a>
+          </div>
+        </details>
+        <details class="role">
+          <summary><span class="org">NextPlate</span><span class="when">2022</span><span class="title">Software Engineer</span></summary>
+          <div class="body">
+            <p>Joined a start-up that reduces food waste by partnering with restaurants and selling surplus food at discounted prices.</p>
+            <ul>
+              <li>Designed the UI/UX for the help-center client and admin portals in Figma.</li>
+              <li>Structured and developed the help-center backend with Node.js and Firebase.</li>
+              <li>Launched a product used by 50+ restaurants, including Subway and Jersey Mike's.</li>
+            </ul>
+            <a class="link" href="https://www.home.nextplate.app/" target="_blank" rel="noopener">nextplate.app ↗</a>
+          </div>
+        </details>
+        <details class="role">
+          <summary><span class="org">Tera Thought</span><span class="when">2022</span><span class="title">Senior Software Engineer</span></summary>
+          <div class="body">
+            <ul>
+              <li>Led the team structuring "Shareful", a resource-sharing mobile app, with MVVM architecture.</li>
+              <li>Implemented UI components for Android and iOS using Kotlin, Jetpack Compose and Swift.</li>
+              <li>Implemented backend features with Firebase.</li>
+            </ul>
+            <a class="link" href="https://www.terathought.com/" target="_blank" rel="noopener">terathought.com ↗</a>
+          </div>
+        </details>
+        <details class="role">
+          <summary><span class="org">Par Technology</span><span class="when">2022</span><span class="title">QA Engineer Intern</span></summary>
+          <div class="body">
+            <ul>
+              <li>Developed an automated test suite to pinpoint defects, track bugs and validate functionality for POS software.</li>
+              <li>Carried out the automated regression testing plan in JavaScript and prototyped automatic test-script generation, producing 20 automation test cases with trivial human intervention.</li>
+              <li>Completed 68 manual tests and 20 automation test cases — 4,000+ lines of scripts and 80% test coverage.</li>
+              <li>Investigated deviations in test results and determined root causes.</li>
+            </ul>
+            <a class="link" href="https://partech.com/" target="_blank" rel="noopener">partech.com ↗</a>
+          </div>
+        </details>
+
+        <h3>Product</h3>
+        <details class="role">
+          <summary><span class="org">Tencent</span><span class="when">2021</span><span class="title">Product Intern, WeTest</span></summary>
+          <div class="body">
+            <ul>
+              <li>Led business development and outsourcing, building partnerships with 10+ potential clients through game-industry conferences, business-matching systems and LinkedIn outreach.</li>
+              <li>Proposed and facilitated B2B global marketing strategies for WeTest, Tencent's game-testing platform.</li>
+              <li>Wrote weekly blogs about QA services and game testing, boosting public exposure by 300%.</li>
+            </ul>
+            <a class="link" href="https://www.tencent.com/en-us/" target="_blank" rel="noopener">tencent.com ↗</a>
+            <a class="link" href="https://www.wetest.net/" target="_blank" rel="noopener">WeTest ↗</a>
+          </div>
+        </details>
+
+        <h3>Teaching</h3>
+        <details class="role">
+          <summary><span class="org">USC Viterbi</span><span class="when">2022</span><span class="title">Course Producer, CSCI 310 Software Engineering</span></summary>
+          <div class="body">
+            <ul>
+              <li>Held office hours for coding and project questions.</li>
+              <li>Answered course questions on Piazza.</li>
+              <li>Graded programming assignments and exams.</li>
+            </ul>
+            <a class="link" href="https://viterbischool.usc.edu/" target="_blank" rel="noopener">USC Viterbi School of Engineering ↗</a>
+          </div>
+        </details>
+        <details class="role">
+          <summary><span class="org">USC Marshall</span><span class="when">2022</span><span class="title">Teaching Assistant, BUAD 311 Operations Management</span></summary>
+          <div class="body">
+            <ul>
+              <li>Answered students' questions through Slack and email.</li>
+              <li>Proofread course materials and managed them through Blackboard.</li>
+              <li>Graded quizzes and exams on business operations.</li>
+            </ul>
+            <a class="link" href="https://www.marshall.usc.edu/" target="_blank" rel="noopener">USC Marshall School of Business ↗</a>
+          </div>
+        </details>
+
+        <h3>Research &amp; publications</h3>
+        <details class="role">
+          <summary><span class="org">KDD-UC</span><span class="when">2022</span><span class="title">Did your child get disturbed by an inappropriate advertisement on YouTube?</span></summary>
+          <div class="body">
+            <p class="cite">Jeffrey Liu, Rajat Tandon, Uma Durairaj, Jiani Guo, Spencer Zahabizadeh, Sanjana Ilango, Jeremy Tang, Neelesh Gupta, <b>Zoe Zhou</b>, Jelena Mirkovic. 2022. <i>Did your child get disturbed by an inappropriate advertisement on YouTube?</i> In Proceedings of KDD Undergraduate Consortium (KDD-UC). ACM, New York, NY, USA, 7 pages.</p>
+            <a class="link" href="https://kdd.org/kdd2022/papers/07_Jeffrey%20Liu.pdf" target="_blank" rel="noopener">Read the paper ↗</a>
+            <a class="link" href="https://sites.google.com/usc.edu/inappropriate--ads-work/home" target="_blank" rel="noopener">Research website ↗</a>
+            <a class="link" href="https://kdd.org/kdd2022/kdd-uc.html" target="_blank" rel="noopener">KDD Conference ↗</a>
+          </div>
+        </details>
+        <details class="role">
+          <summary><span class="org">USC i-Lab</span><span class="when">2022</span><span class="title">Research Assistant, Innovation in Integrated Informatics Lab</span></summary>
+          <div class="body">
+            <p class="quiet">Supervisor: Prof. Burcin Becerik-Gerber · Ph.D. student: Ala Nekouvaght Tak</p>
+            <ul>
+              <li>Researched reinforcement learning for personalized thermal comfort systems.</li>
+              <li>Applied the Markov assumption to the RL agent's decision process and used a simple MLP to learn the policy given system states.</li>
+              <li>Designed a custom reward function based on power consumption, thermal comfort and personalized control.</li>
+              <li>Retrieved and managed intelligent-agent data using Python and InfluxDB.</li>
+            </ul>
+            <a class="link" href="https://www.i-lab.usc.edu/" target="_blank" rel="noopener">i-lab.usc.edu ↗</a>
+          </div>
+        </details>
+
+        <h3>Business</h3>
+        <details class="role">
+          <summary><span class="org">Ascend USC</span><span class="when">2020 — 22</span><span class="title">VP of Finance · Co-Chair of Professional Development</span></summary>
+          <div class="body">
+            <p class="quiet">Vice President of Finance (2021–2022) · Co-Chair of Professional Development (2020–2021)</p>
+            <ul>
+              <li>Connected with professionals from PwC, Deloitte and Boeing and hosted career-development events.</li>
+              <li>Wrote budget plans; managed funding, accounts, membership fees and expenditures; hosted fundraisers.</li>
+              <li>Designed and ran the official Ascend website.</li>
+            </ul>
+            <a class="link" href="https://www.ascendusc.org/" target="_blank" rel="noopener">ascendusc.org ↗</a>
+          </div>
+        </details>
+      </section>
+
+      <section data-section="work" data-kicker="The greenhouse" data-title="Projects">
+        <p class="lede">Apps, games and small worlds — some grown alone, most grown with friends.</p>
+        <div class="works" id="works"></div>
+      </section>
+
+      <section data-section="studies" data-kicker="The reading nook" data-title="Education">
+        <div class="school">
+          <img src="assets/img/berkeley.png" alt="" width="44" height="44" loading="lazy" />
+          <div>
+            <p class="school-name">University of California, Berkeley <span>’24</span></p>
+            <p>Fung Institute for Engineering Leadership — M.Eng. in Electrical Engineering &amp; Computer Sciences</p>
+            <p class="quiet">Track: Visual Computing &amp; Computer Graphics</p>
           </div>
         </div>
-        <div>
-          <h3 class="group-label">Certificates</h3>
-          <ul class="plain-list">
-            <li><a href="https://coursera.org/share/2fb65cfa2d808011f2e096f7e02e4405" target="_blank" rel="noopener">Intro to AR/VR/MR/XR: Technologies, Applications &amp; Issues</a><span>Coursera</span></li>
-            <li><a href="https://coursera.org/share/0f4eccc2995ede9b2073a78097462675" target="_blank" rel="noopener">Supervised Machine Learning: Regression and Classification</a><span>Coursera</span></li>
-            <li><a href="https://coursera.org/share/5bf854a14fff1bb2d9eb166ebc0b62ed" target="_blank" rel="noopener">Operating Systems and You: Becoming a Power User</a><span>Coursera</span></li>
-            <li><a href="https://udemy-certificate.s3.amazonaws.com/pdf/UC-9b783081-17f7-45e5-a69d-734a40d52548.pdf" target="_blank" rel="noopener">Data Structures and Algorithms: Deep Dive Using Java</a><span>Udemy</span></li>
-          </ul>
-          <h3 class="group-label">Technical skills</h3>
-          <dl class="skills">
-            <dt>Languages</dt><dd>Java · Swift · C++ · C# · JavaScript · R · Kotlin · HTML5 · Python · CSS3 · SQL</dd>
-            <dt>Tools</dt><dd>Git · Unity · Firebase · MongoDB · Figma</dd>
-            <dt>Frameworks</dt><dd>React · Vue.js · Node.js · Next.js</dd>
-          </dl>
+        <div class="school">
+          <img src="assets/img/usc.webp" alt="" width="44" height="44" loading="lazy" />
+          <div>
+            <p class="school-name">University of Southern California <span>’23</span></p>
+            <p>Viterbi School of Engineering — B.S. in Computer Science / Business Administration</p>
+            <p class="quiet">Minor in Mobile App Development (Viterbi) · Minor in Songwriting (Thornton School of Music)</p>
+          </div>
         </div>
-      </div>
-    </section>
+        <h3>Certificates</h3>
+        <ul class="plain-list">
+          <li><a href="https://coursera.org/share/2fb65cfa2d808011f2e096f7e02e4405" target="_blank" rel="noopener">Intro to AR/VR/MR/XR: Technologies, Applications &amp; Issues</a><span>Coursera</span></li>
+          <li><a href="https://coursera.org/share/0f4eccc2995ede9b2073a78097462675" target="_blank" rel="noopener">Supervised Machine Learning: Regression and Classification</a><span>Coursera</span></li>
+          <li><a href="https://coursera.org/share/5bf854a14fff1bb2d9eb166ebc0b62ed" target="_blank" rel="noopener">Operating Systems and You: Becoming a Power User</a><span>Coursera</span></li>
+          <li><a href="https://udemy-certificate.s3.amazonaws.com/pdf/UC-9b783081-17f7-45e5-a69d-734a40d52548.pdf" target="_blank" rel="noopener">Data Structures and Algorithms: Deep Dive Using Java</a><span>Udemy</span></li>
+        </ul>
+      </section>
 
-    <!-- ─────────── Afternoon: work ─────────── -->
-    <section id="work" class="chapter" data-tone="ink">
-      <header class="chapter-head">
-        <span class="numeral">ii.</span>
-        <h2>Selected work</h2>
-        <p class="chapter-sub">Apps, games and small worlds — some made alone, most made with friends.</p>
-      </header>
-      <div class="works" id="works"></div>
-    </section>
+      <section data-section="play" data-kicker="The gazebo" data-title="Play">
+        <p class="lede">When the laptop closes — dance, choir, and songs I wrote.</p>
+        <h3>Dance</h3>
+        <ol class="play-list" id="list-dance"></ol>
+        <h3>Choir</h3>
+        <ol class="play-list" id="list-choir"></ol>
+        <h3>Songs</h3>
+        <ol class="play-list" id="list-songs"></ol>
+      </section>
 
-    <!-- ─────────── Dusk: play ─────────── -->
-    <section id="play" class="chapter" data-tone="light">
-      <header class="chapter-head">
-        <span class="numeral">iii.</span>
-        <h2>Play</h2>
-        <p class="chapter-sub">When the laptop closes — dance, choir, and songs I wrote.</p>
-      </header>
-      <div class="play-cols">
-        <div class="play-col">
-          <h3 class="group-label">Dance</h3>
-          <ol class="play-list" id="list-dance"></ol>
-        </div>
-        <div class="play-col">
-          <h3 class="group-label">Choir</h3>
-          <ol class="play-list" id="list-choir"></ol>
-        </div>
-        <div class="play-col">
-          <h3 class="group-label">Songs</h3>
-          <ol class="play-list" id="list-songs"></ol>
-        </div>
-      </div>
-    </section>
-
-    <!-- ─────────── Night: contact ─────────── -->
-    <section id="contact" class="chapter closing" data-tone="light">
-      <span class="numeral">iv.</span>
-      <h2>Say <em>hello</em></h2>
-      <p class="chapter-sub">For collaborations, roles, or simply a conversation — I'm always glad to hear from you.</p>
-      <ul class="contact-links">
-        <li><a href="https://www.linkedin.com/in/crispyinuo/" target="_blank" rel="noopener">LinkedIn</a></li>
-        <li><a href="https://github.com/crispyinuo" target="_blank" rel="noopener">GitHub</a></li>
-        <li><a href="assets/docs/Zoe-Zhou-Resume.pdf" target="_blank" rel="noopener">Résumé</a></li>
-      </ul>
-      <footer class="footer">
-        <span>© <span id="year">2026</span> Zoe Zhou</span>
-        <span>Made by hand with three.js</span>
-      </footer>
-    </section>
-  </main>
+      <section data-section="contact" data-kicker="The mailbox" data-title="Leave me a little note">
+        <p class="lede">For collaborations, roles, or simply a conversation — I'm always glad to hear from you.</p>
+        <ul class="contact-links">
+          <li><a href="https://www.linkedin.com/in/crispyinuo/" target="_blank" rel="noopener"><b>LinkedIn</b><span>open to messages ↗</span></a></li>
+          <li><a href="https://github.com/crispyinuo" target="_blank" rel="noopener"><b>GitHub</b><span>@crispyinuo ↗</span></a></li>
+          <li><a href="assets/docs/Zoe-Zhou-Resume.pdf" target="_blank" rel="noopener"><b>Résumé</b><span>PDF ↗</span></a></li>
+        </ul>
+        <p class="quiet footnote">© <span id="year">2026</span> Zoe Zhou · built by hand with three.js</p>
+      </section>
+    </div>
+  </aside>
 
   <dialog class="modal" id="modal" aria-labelledby="modal-title">
-    <button class="modal-close" id="modal-close" aria-label="Close">Close</button>
+    <button class="modal-close" id="modal-close" aria-label="Close">✕</button>
     <div class="modal-media" id="modal-media"></div>
     <div class="modal-body">
       <p class="kicker" id="modal-kicker"></p>

@@ -88,59 +88,11 @@ button { font: inherit; color: inherit; }
   color: var(--moss);
 }
 .brand-sub { display: block; margin: 5px 0 0 47px; font-family: var(--display); font-style: italic; font-size: 1.02rem; color: var(--ink-soft); }
-body.is-intro .corner { opacity: 0; pointer-events: none; }
-
-/* ───────────────────────── Intro ───────────────────────── */
-.intro {
-  position: fixed;
-  top: 7vh;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 12;
-  width: min(620px, calc(100% - 40px));
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  transition: opacity 1s var(--ease), transform 1s var(--ease);
-}
-.intro .kicker { justify-content: center; }
-.intro h1 {
-  margin: 2px 0 10px;
-  font-family: var(--display);
-  font-weight: 500;
-  font-size: clamp(3.4rem, 8vw, 5.8rem);
-  line-height: 0.95;
-  letter-spacing: -0.005em;
-}
-.intro .ornament { margin-bottom: 14px; }
-.intro-sub { margin: 0 auto 26px; max-width: 30em; color: var(--ink-soft); font-size: 1.12rem; line-height: 1.5; }
-.enter {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  border: 0;
-  background: var(--paper);
-  padding: 14px 30px;
-  border-radius: 999px;
-  font-family: var(--sans);
-  font-size: 0.7rem;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-  font-weight: 500;
-  cursor: pointer;
-  box-shadow: inset 0 0 0 1px var(--hair), inset 0 0 0 4px var(--paper), inset 0 0 0 5px rgba(100, 125, 82, 0.28), 0 14px 30px -14px rgba(43, 58, 45, 0.55);
-  transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease);
-}
-.enter span { transition: transform 0.5s var(--ease); }
-.enter:hover { transform: translateY(-2px); }
-.enter:hover span { transform: translateX(4px); }
-body:not(.is-intro) .intro { opacity: 0; transform: translate(-50%, -16px); pointer-events: none; }
 
 /* ───────────────────────── Floating labels ───────────────────────── */
 .labels { position: fixed; inset: 0; pointer-events: none; z-index: 5; transition: opacity 0.8s var(--ease); }
-body.is-intro .labels, body.is-open .labels { opacity: 0; }
-body.is-intro .labels .label, body.is-open .labels .label { pointer-events: none; }
+body.is-open .labels { opacity: 0; }
+body.is-open .labels .label { pointer-events: none; }
 .label {
   position: absolute;
   left: 0;
@@ -222,7 +174,6 @@ body.is-intro .labels .label, body.is-open .labels .label { pointer-events: none
 .dock button[aria-current="true"] { background: var(--ink); color: var(--paper); }
 .dock button[aria-current="true"] .ico { color: #c9d8b6; }
 .dock button[aria-current="true"] span { color: rgba(247, 242, 231, 0.65); }
-body.is-intro .dock { opacity: 0; transform: translate(-50%, 20px); pointer-events: none; }
 
 .hint {
   position: fixed;
@@ -240,7 +191,7 @@ body.is-intro .dock { opacity: 0; transform: translate(-50%, 20px); pointer-even
   transition: opacity 0.8s;
 }
 .hint .ico { color: var(--moss); }
-body.is-intro .hint, body.is-open .hint { opacity: 0; }
+body.is-open .hint { opacity: 0; }
 @media (max-width: 700px) {
   .hint, .brand-sub { display: none; }
   .corner { top: 16px; left: 16px; }

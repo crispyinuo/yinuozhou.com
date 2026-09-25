@@ -845,7 +845,7 @@ function init() {
   const view = { target: new THREE.Vector3(), dist: 90, el: 1.05, az: -0.35 };
   const goal = { target: new THREE.Vector3(), dist: 0, el: 0, az: 0 };
   let userAz = 0, userEl = 0;
-  let mode = document.body.classList.contains("is-intro") ? "intro" : "overview";
+  let mode = "overview";
   let focusId = null;
 
   function fitDist() {
@@ -855,12 +855,7 @@ function init() {
     return Math.max(27 / halfH, (R * 1.18) / halfW);
   }
   function setGoal() {
-    if (mode === "intro") {
-      goal.target.set(0, -3, -13);
-      goal.dist = fitDist() * 1.3;
-      goal.el = 0.78;
-      goal.az = -0.3;
-    } else if (mode === "overview") {
+    if (mode === "overview") {
       goal.target.set(0, -3, 1.5);
       goal.dist = fitDist();
       goal.el = 0.74;
@@ -884,7 +879,6 @@ function init() {
     camera.lookAt(view.target);
   }
 
-  addEventListener("garden:enter", () => { mode = "overview"; setGoal(); });
   addEventListener("garden:focus", (e) => { mode = "focus"; focusId = e.detail; userAz *= 0.3; userEl = 0; setGoal(); });
   addEventListener("garden:overview", () => { mode = "overview"; focusId = null; setGoal(); });
   addEventListener("garden:hover", (e) => (hoverFromUI = e.detail));
@@ -914,13 +908,13 @@ function init() {
         drag.moved = true;
         canvas.classList.add("dragging");
       }
-      if (drag.moved && mode !== "intro") {
+      if (drag.moved) {
         userAz = Math.max(-0.7, Math.min(0.7, drag.az - dx * 0.004));
         userEl = Math.max(-0.35, Math.min(0.3, drag.el + dy * 0.003));
       }
       return;
     }
-    if (mode === "intro" || e.pointerType === "touch") return;
+    if (e.pointerType === "touch") return;
     hoverFromScene = landmarkAt(e.clientX, e.clientY);
     canvas.classList.toggle("hovering", !!hoverFromScene);
   });
@@ -929,7 +923,6 @@ function init() {
     drag = null;
     canvas.classList.remove("dragging");
     if (wasDrag) return;
-    if (mode === "intro") return document.getElementById("enter").click();
     const id = landmarkAt(e.clientX, e.clientY);
     if (id) window.garden.open(id);
     else if (mode === "focus") window.garden.close();

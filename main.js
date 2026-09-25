@@ -6,14 +6,6 @@
 
   $("#year").textContent = new Date().getFullYear();
 
-  /* ───────────── Intro ───────────── */
-  function enter() {
-    if (!body.classList.contains("is-intro")) return;
-    body.classList.remove("is-intro");
-    dispatchEvent(new CustomEvent("garden:enter"));
-  }
-  $("#enter").addEventListener("click", enter);
-
   /* ───────────── Pages ───────────── */
   // The garden is the menu: a building click glides the camera over (scene.js listens for
   // garden:focus / garden:overview), then the section opens as a full page.
@@ -45,7 +37,6 @@
   }
   function open(id) {
     if (!sections[id]) return;
-    enter();
     const wasOpen = !!current;
     show(id);
     page.hidden = false;

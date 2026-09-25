@@ -86,7 +86,7 @@
         ${p.award ? `<span class="work-award">${esc(p.award.split("·")[0].replace(/^\S+\s/, "").trim())}</span>` : ""}
         <span class="work-desc">${esc(p.desc[0])}</span>
         <span class="work-by">${p.feat ? "with " + esc(p.feat.join(", ")) : "Solo project"}</span>
-        <span class="work-more">Open the project →</span>
+        <span class="work-more">Open project</span>
       </span>
     </button>`).join("");
 
@@ -96,14 +96,14 @@
   const ytFrame = (id, title) =>
     `<iframe class="video" src="https://www.youtube-nocookie.com/embed/${id}?rel=0" title="${esc(title)}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen"></iframe>`;
 
-  function openModal({ media = "", kicker = "", title, feat = "", award = "", desc = [], skills = "", links = [] }) {
+  function openModal({ media = "", kicker = "", title, feat = "", award = "", desc = [], skills = [], links = [] }) {
     $("#modal-media").innerHTML = media;
     $("#modal-kicker").innerHTML = kicker;
     $("#modal-title").textContent = title;
     $("#modal-feat").textContent = feat;
     $("#modal-award").textContent = award;
     $("#modal-desc").innerHTML = desc.map((d) => `<p>${esc(d)}</p>`).join("");
-    $("#modal-skills").textContent = skills;
+    $("#modal-skills").innerHTML = skills.map((k) => `<span>${esc(k)}</span>`).join("");
     $("#modal-links").innerHTML = links
       .map((l) => `<a class="link" href="${l.href}" target="_blank" rel="noopener">${esc(l.label)}${isExternal(l.href) ? " ↗" : ""}</a>`)
       .join("");
@@ -122,7 +122,7 @@
       feat: p.feat ? `with ${p.feat.join(", ")}` : "",
       award: p.award ? p.award.replace(/^\S+\s/, "") : "",
       desc: p.desc,
-      skills: p.skills.join("  ·  "),
+      skills: p.skills,
       links: p.links,
     });
   }

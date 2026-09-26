@@ -70,6 +70,11 @@ button { font: inherit; color: inherit; }
 #garden { position: fixed; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; cursor: grab; }
 #garden.dragging { cursor: grabbing; }
 #garden.hovering { cursor: pointer; }
+/* the garden UI is controls, not text: never let a drag turn into a text selection */
+#garden, .labels, .dock, .corner, .hint { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
+.label, .dock button, .player { -webkit-user-drag: none; }
+body.dragging-view .labels .label { pointer-events: none; }
+body.dragging-view, body.dragging-view .label { cursor: grabbing; }
 
 /* ───────────────────────── Player card ───────────────────────── */
 .corner { position: fixed; top: 18px; left: 20px; z-index: 10; }

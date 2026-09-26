@@ -26,7 +26,7 @@ function init() {
     return;
   }
   const small = Math.min(innerWidth, innerHeight) < 700;
-  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
   renderer.setSize(innerWidth, innerHeight, false);
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
@@ -895,7 +895,7 @@ function init() {
     b.type = "button";
     b.tabIndex = -1; // the dock is the keyboard route
     b.innerHTML = `<svg class="ico" aria-hidden="true"><use href="#i-${L.id}" /></svg><b>${L.name}</b><span>${L.sub}</span>`;
-    b.addEventListener("click", () => window.garden.open(L.id));
+    b.dataset.id = L.id;
     b.addEventListener("pointerenter", () => (hoverFromUI = L.id));
     b.addEventListener("pointerleave", () => (hoverFromUI = null));
     labelsEl.appendChild(b);
@@ -959,16 +959,37 @@ function init() {
     while (o && !o.userData.id) o = o.parent;
     return o?.userData.id || null;
   }
-  canvas.addEventListener("pointerdown", (e) => {
-    drag = { x: e.clientX, y: e.clientY, az: userAz, el: userEl, moved: false };
-    canvas.setPointerCapture(e.pointerId);
+  // A drag can start on the garden or on a building's label. The canvas captures the
+  // pointer so the whole gesture stays ours, and default actions are prevented so the
+  // browser never starts selecting (and then natively dragging) label text mid-gesture.
+  function startDrag(e, labelId = null) {
+    if (e.button !== 0) return;
+    e.preventDefault();
+    drag = { id: e.pointerId, x: e.clientX, y: e.clientY, az: userAz, el: userEl, moved: false, labelId };
+    try { canvas.setPointerCapture(e.pointerId); } catch {}
+  }
+  function endDrag() {
+    if (!drag) return;
+    const wasDrag = drag.moved;
+    drag = null;
+    canvas.classList.remove("dragging");
+    document.body.classList.remove("dragging-view");
+    return wasDrag;
+  }
+  canvas.addEventListener("pointerdown", (e) => startDrag(e));
+  labelsEl.addEventListener("pointerdown", (e) => {
+    const b = e.target.closest(".label");
+    if (b) startDrag(e, b.dataset.id);
   });
   canvas.addEventListener("pointermove", (e) => {
     if (drag) {
+      if (e.pointerId !== drag.id) return;
       const dx = e.clientX - drag.x, dy = e.clientY - drag.y;
       if (!drag.moved && Math.hypot(dx, dy) > 5) {
         drag.moved = true;
         canvas.classList.add("dragging");
+        document.body.classList.add("dragging-view");
+        hoverFromScene = null;
       }
       if (drag.moved) {
         userAz = Math.max(-0.7, Math.min(0.7, drag.az - dx * 0.004));
@@ -981,14 +1002,18 @@ function init() {
     canvas.classList.toggle("hovering", !!hoverFromScene);
   });
   canvas.addEventListener("pointerup", (e) => {
-    const wasDrag = drag?.moved;
-    drag = null;
-    canvas.classList.remove("dragging");
-    if (wasDrag) return;
-    const id = landmarkAt(e.clientX, e.clientY);
+    if (!drag || e.pointerId !== drag.id) return;
+    const labelId = drag.labelId;
+    if (endDrag()) return;
+    const id = labelId || landmarkAt(e.clientX, e.clientY);
     if (id) window.garden.open(id);
     else if (mode === "focus") window.garden.close();
   });
+  // the browser can take the pointer away (a system gesture, a lost window focus):
+  // always let go instead of staying stuck in a drag
+  canvas.addEventListener("pointercancel", endDrag);
+  canvas.addEventListener("lostpointercapture", endDrag);
+  addEventListener("blur", endDrag);
   canvas.addEventListener("pointerleave", () => { hoverFromScene = null; canvas.classList.remove("hovering"); });
 
   /* ───────────── Resize & loop ───────────── */

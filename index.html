@@ -57,8 +57,13 @@
   <div id="labels" class="labels" aria-hidden="true"></div>
 
   <header class="corner">
-    <a class="brand" href="#" id="home-link"><span class="seal" aria-hidden="true">Z</span>Zoe Zhou</a>
-    <span class="brand-sub">a small garden of things I've made</span>
+    <a class="player" href="#" id="home-link">
+      <img class="avatar" src="assets/img/logo.png" alt="" width="46" height="46" />
+      <span class="player-text">
+        <b>Zoe Zhou</b>
+        <span class="status"><i aria-hidden="true"></i>Software engineer at Luma AI</span>
+      </span>
+    </a>
   </header>
 
 
@@ -72,7 +77,7 @@
     <button data-open="contact"><svg class="ico" aria-hidden="true"><use href="#i-contact" /></svg><b>Mailbox</b><span>Contact</span></button>
   </nav>
 
-  <p class="hint" id="hint"><svg class="ico" aria-hidden="true"><use href="#leaf" /></svg>Drag to look around · tap a building</p>
+  <p class="hint" id="hint"><span class="hint-key" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M5 2.5 V9.5 L7 7.8 L8.6 11.3 L10 10.7 L8.4 7.3 H11 Z" fill="currentColor" stroke="currentColor" stroke-width=".8" stroke-linejoin="round" /></svg></span>Tap a building to visit</p>
 
   <!-- Section pages: the garden is the menu, each building opens a full page -->
   <main class="page" id="page" aria-labelledby="page-title" hidden>

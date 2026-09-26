@@ -37,6 +37,7 @@
   }
   function open(id) {
     if (!sections[id]) return;
+    body.classList.add("explored"); // the hint has done its job
     const wasOpen = !!current;
     show(id);
     page.hidden = false;

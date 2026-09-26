@@ -131,10 +131,10 @@
         </dl>
         <h3>Technical skills</h3>
         <dl class="skills">
-          <dt>Languages</dt><dd>TypeScript · JavaScript · Python · Swift · PHP · GraphQL · SQL · Java · C# · C++ · HTML/CSS</dd>
-          <dt>Frontend</dt><dd>React · Next.js · Vue.js · SwiftUI · tldraw · responsive &amp; mobile web · accessibility · i18n</dd>
-          <dt>Backend &amp; data</dt><dd>Node.js · PostgreSQL · Redis · Temporal · AWS S3 · OAuth 2.0 · MCP · Docker · PostHog · Statsig · Figma</dd>
-          <dt>Mobile, graphics &amp; XR</dt><dd>SwiftData · CloudKit · ARKit · RealityKit · Unity · Unreal · OpenGL · OpenCV</dd>
+          <dt>Languages</dt><dd>TypeScript · JavaScript · Python · Swift · PHP · GraphQL · SQL · Java · C++ · HTML/CSS</dd>
+          <dt>AI &amp; agents</dt><dd>LLM agents · tool calling · MCP · prompt engineering · Gemini, Claude &amp; ElevenLabs APIs · computer vision</dd>
+          <dt>Platform &amp; infra</dt><dd>Node.js · REST &amp; GraphQL APIs · OAuth 2.0 · PostgreSQL · Redis · Temporal · Docker · AWS S3</dd>
+          <dt>Frontend &amp; mobile</dt><dd>React · Next.js · Vue.js · SwiftUI · tldraw · Unity · ARKit · PostHog · Statsig</dd>
         </dl>
         <p class="links-row">
           <a class="link" href="assets/docs/Zoe-Zhou-Resume.pdf" target="_blank" rel="noopener">View résumé ↗</a>
@@ -151,11 +151,11 @@
           <summary><span class="org">Luma AI</span><span class="when">2026 — now</span><span class="title">Software Engineer (Full-Stack) · Redwood City</span></summary>
           <div class="body">
             <ul>
-              <li>Led engineering on Mini Apps for Luma's AI image and video generation platform: one-click creative tools like Camera Angles and Relight, taken from prototype to paid launch in 1.5 weeks.</li>
-              <li>Built out Luma's connector platform so creators move generated images and video between the AI canvas and Google Drive, Dropbox and Frame.io, via agent tools, streamed exports and one shared OAuth connect flow.</li>
-              <li>Scoped and built custom MCP connectors end to end, letting users plug any remote MCP server into the AI agent: OAuth discovery with dynamic client registration, authless servers, and the stateless MCP wire format.</li>
-              <li>Designed the MCP security model: DNS-rebinding-safe SSRF guard, Redis sliding-window rate limiting, and cross-server taint tracking against prompt injection.</li>
-              <li>Integrated multilingual text-to-speech (Seed Audio) end to end, with 20 voices and usage billing on generated audio duration.</li>
+              <li>Built the tool platform for Luma's generative AI agent: custom MCP connectors end to end, letting the agent call any third-party tool via OAuth discovery with dynamic client registration and a stateless transport.</li>
+              <li>Designed the agent platform's security model against SSRF and cross-server prompt injection, and scoped its enterprise rollout: org allowlists, audit logging and on-prem reachability.</li>
+              <li>Shipped two-way agent integrations with Google Drive, Dropbox and Frame.io, unifying 6 OAuth flows into one API.</li>
+              <li>Integrated image, video and TTS models, including Gemini, into the agent canvas; built research mode and agent question blocks.</li>
+              <li>Led engineering on Mini Apps, one-click AI image and video apps, from prototype to paid launch in 1.5 weeks.</li>
             </ul>
             <a class="link" href="https://lumalabs.ai/" target="_blank" rel="noopener">lumalabs.ai ↗</a>
           </div>
@@ -164,10 +164,9 @@
           <summary><span class="org">Meta</span><span class="when">2024 — 26</span><span class="title">Software Engineer, Facebook Ads · Menlo Park</span></summary>
           <div class="body">
             <ul>
-              <li>Workstream Lead for the Facebook Lightweight Ad Creation interface, independently driving end-to-end product execution across ideation, scoping, PRD authoring, rapid prototyping and launch; used SQL analysis to measure experiment impact, validate hypotheses and inform roadmap priorities.</li>
-              <li>Shipped Click-to-Messenger ad features that drove ~$2M in incremental ads revenue, directly increasing advertiser adoption.</li>
-              <li>Delivered end-to-end web and mobile solutions with JavaScript, PHP, GraphQL and React, partnering with product, design, data science and ML teams to prioritize and ship the highest-impact experiments.</li>
-              <li>Used AI coding agents (Claude Code and others) extensively to run 7–8 concurrent workstreams, greatly accelerating iteration across a large project portfolio.</li>
+              <li>Workstream Lead for Facebook Lightweight Ad Creation, driving scoping, PRDs, prototyping and launch; used SQL analysis to measure experiments and set roadmap priorities.</li>
+              <li>Shipped Click-to-Messenger ad features that drove ~$2M in incremental ads revenue.</li>
+              <li>Built web and mobile features in React, JavaScript, PHP and GraphQL, running 7–8 concurrent workstreams with AI coding agents.</li>
             </ul>
             <a class="link" href="https://www.meta.com" target="_blank" rel="noopener">meta.com ↗</a>
           </div>
@@ -269,7 +268,7 @@
           <summary><span class="org">OpenARK Lab, UC Berkeley</span><span class="when">2023 — 24</span><span class="title">Frontend Developer &amp; Algorithms Researcher, FHL Vive Center for Enhanced Reality</span></summary>
           <div class="body">
             <ul>
-              <li>Led DTTDNet development, fine-tuning 3D localization to 85% tracking accuracy on a digital-twin RGB-D dataset captured with ZED2 cameras.</li>
+              <li>Led development of DTTDNet, a deep learning model for 3D object pose estimation, reaching 85% tracking accuracy on a digital-twin RGB-D dataset.</li>
               <li>Built a HoloLens 2 AR interface for Leo Rover's Martian exploration using Unity and Mixed Reality Toolkit.</li>
             </ul>
           </div>

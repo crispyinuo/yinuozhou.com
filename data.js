@@ -7,16 +7,32 @@ window.PROJECTS = [
     title: "Nombook",
     format: "iOS App · on the App Store",
     img: "assets/img/nombook-og.png",
-    skills: ["Swift", "SwiftUI", "SwiftData", "CloudKit", "Vision"],
+    skills: ["Swift", "SwiftUI", "Foundation Models", "Vision", "CloudKit"],
     desc: [
-      "A cozy little recipe diary for iPhone — a recipe keeper, meal planner and cooking diary in one. Solo-built and launched in 7 languages, reaching thousands of App Store downloads.",
+      "A cozy little recipe diary for iPhone — a recipe keeper, meal planner and cooking diary in one. Solo-built and launched in 7 languages, reaching thousands of downloads within its first month.",
       "Save the dishes you actually cook, plan the week, shop from the list, cook step by step with timers, and write down how each one went.",
-      "Recipes can be typed, pasted, saved from a link or scanned from a cookbook page or handwritten card, with OCR done on device and private iCloud sync — serverless and account-free. Every recipe gets its own photo or one of 110+ hand-drawn covers, and each cook is logged with half-star ratings, notes and photos.",
+      "Recipes can be typed, pasted, saved from a link or scanned from a cookbook page or handwritten card, read and structured privately on device with Apple's Foundation Models and Vision OCR, then synced through private iCloud: no server, no account. Every recipe gets its own photo or one of 110+ hand-drawn covers, and each cook is logged with half-star ratings, notes and photos.",
       "Every feature is free: no account, no ads, no subscription and nothing tracked.",
     ],
     links: [
       { label: "App Store", href: "https://apps.apple.com/us/app/nombook-recipe-keeper-diary/id6792402315" },
       { label: "Website", href: "https://www.nombook.app/" },
+    ],
+  },
+  {
+    side: "a",
+    title: "Muse",
+    format: "Web · AI music studio",
+    img: "assets/img/muse.jpg",
+    skills: ["Next.js", "TypeScript", "Claude API", "ElevenLabs API", "WebGL"],
+    desc: [
+      "A generative music studio where you describe a feeling instead of writing a prompt. Pick a mood, set the energy, search for artists and choose instruments, and an LLM (Claude) turns that intent into a precise, editable prompt for ElevenLabs, which composes 30 seconds of music.",
+      "Music is driven by mood and texture, not words, so a blank text box is the wrong interface for most people. The right-hand canvas reacts live to every choice with a mood gradient and a WebGL aurora shader, then becomes the editable prompt and an audio player.",
+    ],
+    youtube: "kAIogoNvFvk",
+    links: [
+      { label: "Try it", href: "https://muse-one-tau.vercel.app/" },
+      { label: "Demo video", href: "https://youtu.be/kAIogoNvFvk" },
     ],
   },
   {

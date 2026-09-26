@@ -70,6 +70,22 @@ function init() {
     g.translate(0, 0, -d / 2);
     return g;
   }
+  // painted textures (signs, screens, a painting); text redraws once Nunito has loaded
+  const canvasTextures = [];
+  function canvasTex(w, h, draw) {
+    const c = document.createElement("canvas");
+    c.width = w;
+    c.height = h;
+    const x = c.getContext("2d");
+    draw(x, w, h);
+    const t = new THREE.CanvasTexture(c);
+    t.colorSpace = THREE.SRGBColorSpace;
+    t.anisotropy = 4;
+    t.userData.redraw = () => { x.clearRect(0, 0, w, h); draw(x, w, h); t.needsUpdate = true; };
+    canvasTextures.push(t);
+    return t;
+  }
+  document.fonts?.load("900 60px Nunito").then(() => canvasTextures.forEach((t) => t.userData.redraw()));
   let seed = 11;
   const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
   const range = (a, b) => a + rnd() * (b - a);
@@ -181,7 +197,39 @@ function init() {
     [[-1.45, -1.6], [1.45, -1.6], [-1.45, -0.6], [1.45, -0.6]].forEach(([x, z]) => mesh(box(0.14, 1.05, 0.14), C.woodDark, g, { x, y: 0.6, z }));
     mesh(box(1, 0.05, 0.68), "#cfd4d8", g, { x: -0.4, y: 1.27, z: -1 });
     mesh(box(1, 0.66, 0.05), "#cfd4d8", g, { x: -0.4, y: 1.6, z: -1.34, rx: -0.2 });
-    mesh(box(0.88, 0.54, 0.02), null, g, { x: -0.4, y: 1.6, z: -1.3, rx: -0.2, m: mat("#d7ecf7", { emissive: "#9ec7e6", emissiveIntensity: 0.6 }) });
+    // the screen: an AI canvas mid-generation
+    const screenTex = canvasTex(256, 160, (x, w, h) => {
+      const bg = x.createLinearGradient(0, 0, w, h);
+      bg.addColorStop(0, "#1d1b2e");
+      bg.addColorStop(1, "#2c2447");
+      x.fillStyle = bg;
+      x.fillRect(0, 0, w, h);
+      [["#f5b38a", 18, 22], ["#9fb8f0", 96, 22], ["#c9a2e8", 174, 22], ["#8fd1c0", 18, 88], ["#f2d38a", 96, 88]].forEach(([c, px, py]) => {
+        const gr = x.createLinearGradient(px, py, px + 64, py + 52);
+        gr.addColorStop(0, c);
+        gr.addColorStop(1, "#ffffff55");
+        x.fillStyle = gr;
+        x.beginPath();
+        x.roundRect(px, py, 64, 52, 8);
+        x.fill();
+      });
+      x.strokeStyle = "#ffffff88";
+      x.lineWidth = 3;
+      x.setLineDash([8, 6]);
+      x.beginPath();
+      x.roundRect(174, 88, 64, 52, 8);
+      x.stroke();
+    });
+    mesh(box(0.88, 0.54, 0.02), null, g, { x: -0.4, y: 1.6, z: -1.3, rx: -0.2, m: new THREE.MeshStandardMaterial({ map: screenTex, emissive: "#ffffff", emissiveMap: screenTex, emissiveIntensity: 0.55, roughness: 0.5 }) });
+    // a camera on a tripod, pointed at the bench
+    const cam = new THREE.Group();
+    cam.position.set(-2.2, 0.3, 0.6);
+    cam.rotation.y = -0.6;
+    g.add(cam);
+    [0, 2.1, 4.2].forEach((a) => mesh(cyl(0.03, 0.03, 1.5, 4), C.ink, cam, { x: Math.sin(a) * 0.3, y: 0.7, z: Math.cos(a) * 0.3, rx: Math.cos(a) * 0.22, rz: -Math.sin(a) * 0.22 }));
+    mesh(box(0.5, 0.34, 0.3), "#34323a", cam, { y: 1.55 });
+    mesh(cyl(0.12, 0.14, 0.26, 10), "#1f1e24", cam, { y: 1.55, z: 0.26, rx: Math.PI / 2 });
+    mesh(new THREE.SphereGeometry(0.05, 6, 4), "#e05a4f", cam, { x: 0.18, y: 1.76, z: 0.08, cast: false, m: mat("#e05a4f", { emissive: "#e05a4f", emissiveIntensity: 0.9 }) });
     mesh(cyl(0.12, 0.1, 0.24, 8), C.plaster, g, { x: 0.6, y: 1.36, z: -0.9 });
     mesh(cyl(0.2, 0.15, 0.3, 7), C.terracotta, g, { x: 1.2, y: 1.39, z: -1.2 });
     mesh(new THREE.IcosahedronGeometry(0.3, 0), C.leaf2, g, { x: 1.2, y: 1.72, z: -1.2 });
@@ -225,8 +273,8 @@ function init() {
     mesh(cyl(0.1, 0.14, 1.4, 6), C.trunk, g, { y: 1.1 });
     mesh(new THREE.IcosahedronGeometry(0.8, 0), C.leaf2, g, { y: 2.2 });
     // watering can outside
-    mesh(cyl(0.25, 0.28, 0.45, 8), "#7f9aa8", g, { x: 3.2, y: 0.62, z: 3.2 });
-    mesh(cyl(0.04, 0.05, 0.5, 5), "#7f9aa8", g, { x: 3.5, y: 0.75, z: 3.2, rz: -0.9 });
+    mesh(cyl(0.25, 0.28, 0.45, 8), "#7f9aa8", g, { x: 3.2, y: 0.62, z: -3.3 });
+    mesh(cyl(0.04, 0.05, 0.5, 5), "#7f9aa8", g, { x: 3.5, y: 0.75, z: -3.3, rz: -0.9 });
   }
 
   // Reading nook — education
@@ -365,7 +413,11 @@ function init() {
     if (Math.abs(p.length() - RING) < pad) return true;
     return segs.some((s) => distToSeg(p, s) < pad);
   };
-  const nearLandmark = (x, z, pad = 1) => LANDMARKS.some((L) => Math.hypot(x - L.pos[0], z - L.pos[1]) < L.r + pad) || Math.hypot(x, z) < 3.8 + pad;
+  const reserved = []; // story props placed on the lawn: { x, z, r }
+  const nearLandmark = (x, z, pad = 1) =>
+    LANDMARKS.some((L) => Math.hypot(x - L.pos[0], z - L.pos[1]) < L.r + pad) ||
+    Math.hypot(x, z) < 3.8 + pad ||
+    reserved.some((o) => Math.hypot(x - o.x, z - o.z) < o.r + pad);
 
   {
     const spots = [];
@@ -395,6 +447,224 @@ function init() {
     world.add(inst);
   }
 
+  /* ───────────── Zoe's story: small details around the garden ───────────── */
+  // a wooden sign with painted text
+  function sign(text, w, h, { bg = "#f3e6c9", ink = "#3a3430", sub = "" } = {}) {
+    const tex = canvasTex(Math.round(w * 160), Math.round(h * 160), (x, cw, ch) => {
+      x.fillStyle = bg;
+      x.fillRect(0, 0, cw, ch);
+      x.strokeStyle = "rgba(90, 60, 30, 0.25)";
+      x.lineWidth = ch * 0.06;
+      x.strokeRect(0, 0, cw, ch);
+      x.fillStyle = ink;
+      x.textAlign = "center";
+      x.textBaseline = "middle";
+      x.font = `900 ${ch * (sub ? 0.46 : 0.56)}px Nunito, system-ui, sans-serif`;
+      x.fillText(text, cw / 2, ch * (sub ? 0.4 : 0.54), cw * 0.9);
+      if (sub) {
+        x.font = `800 ${ch * 0.25}px Nunito, system-ui, sans-serif`;
+        x.globalAlpha = 0.65;
+        x.fillText(sub, cw / 2, ch * 0.76);
+        x.globalAlpha = 1;
+      }
+    });
+    const face = new THREE.MeshStandardMaterial({ map: tex, roughness: 0.9 });
+    const wood = mat(C.woodLight);
+    return new THREE.Mesh(box(w, h, 0.1), [wood, wood, wood, wood, face, wood]);
+  }
+  function place(obj, x, z, r, ry = 0) {
+    obj.position.set(x, 0, z);
+    obj.rotation.y = ry;
+    world.add(obj);
+    reserved.push({ x, z, r });
+    return obj;
+  }
+
+  // A signpost of milestones where the entrance path meets the fountain
+  {
+    const g = new THREE.Group();
+    mesh(cyl(0.1, 0.13, 3.3, 6), C.woodDark, g, { y: 1.65 });
+    mesh(new THREE.ConeGeometry(0.16, 0.25, 6), C.woodDark, g, { y: 3.42 });
+    [
+      ["Luma AI", "2026 — now", -0.55, 2.85],
+      ["Meta", "2024 — 26", 0.5, 2.35],
+      ["Apple Maps", "2023", -0.35, 1.85],
+      ["Berkeley · USC", "M.Eng '24 · B.S. '23", 0.3, 1.35],
+    ].forEach(([t, sub, ry, y], i) => {
+      const arm = new THREE.Group();
+      arm.position.y = y;
+      arm.rotation.y = ry;
+      g.add(arm);
+      const dir = i % 2 ? -1 : 1;
+      const b = sign(t, 1.7, 0.42, { sub, bg: i === 0 ? "#f6d9a8" : "#f3e6c9" });
+      b.position.x = dir * 0.85;
+      b.castShadow = true;
+      arm.add(b);
+      mesh(prismGeo(0.42, 0.26, 0.1), C.woodLight, arm, { x: dir * 1.83, rz: -dir * Math.PI / 2 });
+    });
+    g.scale.setScalar(1.55);
+    place(g, -2.4, 7.9, 2, 0.3);
+  }
+
+  // Dad's easel: a small landscape in progress, for the Jiuye gallery
+  {
+    const g = new THREE.Group();
+    [-0.42, 0.42].forEach((x) => mesh(box(0.08, 2.3, 0.08), C.wood, g, { x, y: 1.1, rz: -x * 0.2 }));
+    mesh(box(0.08, 2.1, 0.08), C.wood, g, { y: 1, z: -0.5, rx: 0.3 });
+    mesh(box(1.2, 0.08, 0.14), C.woodDark, g, { y: 0.9, z: 0.08 });
+    const painting = canvasTex(220, 170, (x, w, h) => {
+      const sky = x.createLinearGradient(0, 0, 0, h * 0.6);
+      sky.addColorStop(0, "#8fbfe6");
+      sky.addColorStop(1, "#e8f1f4");
+      x.fillStyle = sky;
+      x.fillRect(0, 0, w, h);
+      x.fillStyle = "#b4c9a0";
+      x.beginPath();
+      x.moveTo(0, h * 0.6);
+      x.quadraticCurveTo(w * 0.35, h * 0.38, w * 0.7, h * 0.55);
+      x.quadraticCurveTo(w * 0.85, h * 0.6, w, h * 0.5);
+      x.lineTo(w, h);
+      x.lineTo(0, h);
+      x.fill();
+      x.fillStyle = "#c2654a";
+      x.fillRect(w * 0.55, h * 0.44, w * 0.2, h * 0.08);
+      x.fillStyle = "#f3efe6";
+      x.fillRect(w * 0.56, h * 0.5, w * 0.18, h * 0.08);
+      x.fillStyle = "#6f9a4e";
+      x.fillRect(0, h * 0.68, w, h * 0.32);
+      for (let i = 0; i < 70; i++) {
+        x.fillStyle = i % 3 ? "#f0c43a" : "#f6dc6a";
+        x.beginPath();
+        x.arc(Math.random() * w, h * 0.72 + Math.random() * h * 0.28, 2 + Math.random() * 3, 0, Math.PI * 2);
+        x.fill();
+      }
+    });
+    const canvasFace = new THREE.MeshStandardMaterial({ map: painting, roughness: 0.95 });
+    const cream = mat("#fbf7ee");
+    mesh(box(1.1, 0.85, 0.05), null, g, { y: 1.4, z: 0.1, rx: -0.12, m: [cream, cream, cream, cream, canvasFace, cream] });
+    mesh(cyl(0.22, 0.22, 0.03, 12), "#e9dcc4", g, { x: 0.9, y: 0.02, z: 0.5 });
+    ["#c2654a", "#f0c43a", "#6f9a4e", "#8fbfe6"].forEach((c, i) => mesh(new THREE.SphereGeometry(0.04, 6, 4), c, g, { x: 0.83 + (i % 2) * 0.12, y: 0.05, z: 0.44 + (i > 1 ? 0.12 : 0) }));
+    place(g, -4.4, -11.4, 1.1, 0.35);
+  }
+
+  // A picnic by the cottage: a bamboo steamer of dumplings (fuelled by dumplings)
+  {
+    const g = new THREE.Group();
+    mesh(box(2.3, 0.1, 1.1), C.wood, g, { y: 0.78 });
+    [-0.95, 0.95].forEach((x) => [-0.4, 0.4].forEach((z) => mesh(box(0.1, 0.76, 0.1), C.woodDark, g, { x, y: 0.38, z })));
+    [-0.9, 0.9].forEach((z) => mesh(box(2.3, 0.08, 0.34), C.woodLight, g, { y: 0.45, z }));
+    mesh(box(1.4, 0.02, 0.8), "#e8b9a6", g, { y: 0.84, cast: false });
+    mesh(cyl(0.38, 0.38, 0.2, 14), "#d9b877", g, { x: -0.3, y: 0.95 });
+    for (let i = 0; i < 5; i++) {
+      const a = (i / 5) * Math.PI * 2;
+      const d = mesh(new THREE.SphereGeometry(0.1, 8, 6), "#f7efe0", g, { x: -0.3 + Math.cos(a) * 0.2, y: 1.08, z: Math.sin(a) * 0.2 });
+      d.scale.set(1, 0.72, 1);
+    }
+    mesh(new THREE.SphereGeometry(0.1, 8, 6), "#f7efe0", g, { x: -0.3, y: 1.08 }).scale.set(1, 0.72, 1);
+    mesh(cyl(0.39, 0.38, 0.06, 14), "#c9a45f", g, { x: 0.35, y: 0.86, z: 0.12, rz: 0.15 });
+    [-0.07, 0.07].forEach((z) => mesh(cyl(0.012, 0.012, 0.7, 4), "#b08b5a", g, { x: 0.45, y: 0.88, z: -0.25 + z, rz: Math.PI / 2 - 0.08 }));
+    mesh(cyl(0.1, 0.08, 0.16, 8), C.plaster, g, { x: 0.75, y: 0.9, z: -0.2 });
+    place(g, -14.2, -4.8, 1.6, 1.2);
+  }
+
+  // The greenhouse grows the projects: a row of keepsakes on little pedestals by its door
+  {
+    const g = byId.work.group;
+    const pedestal = (x) => {
+      mesh(cyl(0.5, 0.58, 0.8, 8), C.stone3, g, { x, y: 0.6, z: 3.8 });
+      const top = new THREE.Group();
+      top.position.set(x, 1.02, 3.8);
+      top.scale.setScalar(1.9);
+      g.add(top);
+      return top;
+    };
+    // Nombook: an open recipe book
+    {
+      const t = pedestal(-3.2);
+      [-1, 1].forEach((k) => mesh(box(0.34, 0.03, 0.44), "#fbf5e8", t, { x: k * 0.17, y: 0.06, rz: -k * 0.12 }));
+      mesh(box(0.72, 0.04, 0.48), "#d8744f", t, { y: 0.02 });
+      mesh(new THREE.SphereGeometry(0.08, 8, 6), "#f2c14e", t, { x: -0.17, y: 0.12 });
+    }
+    // Harmony Blocks: a VR headset
+    {
+      const t = pedestal(-1.75);
+      mesh(box(0.5, 0.26, 0.26), "#f4f2f7", t, { y: 0.2 });
+      mesh(box(0.44, 0.2, 0.04), "#2f2c3a", t, { y: 0.2, z: 0.14 });
+      mesh(new THREE.TorusGeometry(0.22, 0.03, 5, 16), "#6c61b8", t, { y: 0.2, z: -0.15 });
+    }
+    // Muse: a glowing music note
+    {
+      const t = pedestal(1.75);
+      const glow = mat("#b98ae6", { emissive: "#9f6be0", emissiveIntensity: 0.6 });
+      mesh(new THREE.SphereGeometry(0.1, 8, 6), null, t, { x: -0.06, y: 0.13, m: glow }).scale.set(1.3, 0.9, 1);
+      mesh(box(0.04, 0.5, 0.04), null, t, { x: 0.06, y: 0.36, m: glow });
+      mesh(box(0.18, 0.05, 0.04), null, t, { x: 0.14, y: 0.59, rz: -0.4, m: glow });
+    }
+    // Wheel of Dinner: a spinning wheel
+    {
+      const t = pedestal(3.2);
+      const wheel = new THREE.Group();
+      wheel.position.y = 0.34;
+      t.add(wheel);
+      ["#e36b4f", "#f7efe0", "#f2c14e", "#f7efe0", "#7fae63", "#f7efe0"].forEach((c, i) =>
+        mesh(new THREE.CylinderGeometry(0.28, 0.28, 0.06, 6, 1, false, (i / 6) * Math.PI * 2, Math.PI / 3), c, wheel, { rx: Math.PI / 2 }));
+      mesh(box(0.04, 0.3, 0.04), C.woodDark, t, { y: 0.12 });
+      animated.push((time) => (wheel.rotation.z = time * 0.8));
+    }
+  }
+
+  // The reading nook remembers two schools: pennants on a string and a graduation cap
+  {
+    const g = byId.studies.group;
+    const from = new THREE.Vector3(-1.4, 2.9, -1.4), to = new THREE.Vector3(1.8, 2.6, -0.4);
+    const cols = [["#003262", "#fdb515"], ["#990000", "#ffcc00"]];
+    for (let i = 0; i < 6; i++) {
+      const k = (i + 0.5) / 6;
+      const p = from.clone().lerp(to, k);
+      p.y -= Math.sin(k * Math.PI) * 0.35;
+      const [a, b] = cols[i % 2];
+      const flag = new THREE.Mesh(new THREE.ConeGeometry(0.18, 0.45, 3), mat(a));
+      flag.position.copy(p).add(new THREE.Vector3(0, -0.24, 0));
+      flag.rotation.set(Math.PI, 0.35, 0);
+      flag.castShadow = true;
+      g.add(flag);
+      mesh(new THREE.SphereGeometry(0.035, 5, 4), b, g, { x: p.x, y: p.y - 0.46, z: p.z, cast: false });
+    }
+    const line = new THREE.CatmullRomCurve3([from, from.clone().lerp(to, 0.5).add(new THREE.Vector3(0, -0.35, 0)), to]);
+    mesh(new THREE.TubeGeometry(line, 16, 0.012, 4), C.ink, g, { cast: false });
+    // cap on the book stack
+    const cap = new THREE.Group();
+    cap.position.set(1.2, 0.98, 0.8);
+    cap.scale.setScalar(1.6);
+    cap.rotation.y = 0.5;
+    g.add(cap);
+    mesh(box(0.62, 0.04, 0.62), C.ink, cap, { y: 0.14 });
+    mesh(cyl(0.2, 0.22, 0.14, 8), C.ink, cap, { y: 0.06 });
+    mesh(cyl(0.012, 0.012, 0.3, 4), "#fdb515", cap, { x: 0.28, y: 0.02, z: 0.1 });
+  }
+
+  // The gazebo is ready for a show: a microphone and a choir music stand on the front steps
+  {
+    const g = byId.play.group;
+    const mic = new THREE.Group();
+    mic.position.set(1.3, 0.22, 3.9);
+    mic.scale.setScalar(1.5);
+    g.add(mic);
+    mesh(cyl(0.2, 0.24, 0.06, 10), C.ink, mic, { y: 0.03 });
+    mesh(cyl(0.03, 0.03, 1.4, 5), C.ink, mic, { y: 0.72 });
+    mesh(cyl(0.02, 0.02, 0.4, 5), C.ink, mic, { y: 1.44, z: 0.12, rx: 0.9 });
+    mesh(new THREE.SphereGeometry(0.1, 8, 6), "#b9bcc4", mic, { y: 1.56, z: 0.28 });
+    const stand = new THREE.Group();
+    stand.position.set(-1.3, 0.22, 3.9);
+    stand.rotation.y = 0.3;
+    stand.scale.setScalar(1.5);
+    g.add(stand);
+    mesh(cyl(0.03, 0.03, 1.1, 5), C.ink, stand, { y: 0.55 });
+    [0, 2.1, 4.2].forEach((r) => mesh(cyl(0.02, 0.02, 0.4, 4), C.ink, stand, { x: Math.sin(r) * 0.15, y: 0.08, z: Math.cos(r) * 0.15, rx: Math.cos(r) * 1.2, rz: -Math.sin(r) * 1.2 }));
+    mesh(box(0.7, 0.46, 0.04), C.ink, stand, { y: 1.2, rx: -0.4 });
+    [-0.16, 0.16].forEach((x) => mesh(box(0.3, 0.4, 0.01), "#fbf7ee", stand, { x, y: 1.22, z: 0.03, rx: -0.4 }));
+  }
+
   /* ───────────── Gate ───────────── */
   {
     const g = new THREE.Group();
@@ -415,7 +685,7 @@ function init() {
 
   /* ───────────── Trees, bushes, lamps, benches ───────────── */
   const sway = [];
-  const obstacles = []; // things the cat walks around: { x, z, r }
+  const obstacles = [...reserved]; // things the cat walks around: { x, z, r }
   function tree(x, z, type, s, parent = world) {
     const g = new THREE.Group();
     g.position.set(x, 0, z);

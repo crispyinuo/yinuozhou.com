@@ -21,6 +21,18 @@ window.PROJECTS = [
   },
   {
     side: "a",
+    title: "Jiuye 九野",
+    format: "Web · Art gallery",
+    img: "assets/img/jiuye-art.jpg",
+    skills: ["React", "TypeScript", "Vite", "Sass", "Vercel"],
+    desc: [
+      "An online gallery I built for my dad's paintings. The name 九野 (Jiuye) comes with his motto, 任由画感 无问西东: let the brushwork follow feeling, and ask not of east or west.",
+      "It shows 29 works in two collections, oil on canvas and fluid art, with bilingual Chinese and English captions, an artist introduction and a lightbox you can page through with the keyboard. Small touches like an ink-trail cursor and soft scroll reveals keep it as quiet as the paintings.",
+    ],
+    links: [{ label: "Visit the gallery", href: "https://www.jiuye.art/" }],
+  },
+  {
+    side: "a",
     title: "Wheel of Dinner",
     format: "iOS App",
     img: "assets/img/wheel-of-dinner.png",

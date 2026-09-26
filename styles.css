@@ -73,6 +73,7 @@ button { font: inherit; color: inherit; }
 /* the garden UI is controls, not text: never let a drag turn into a text selection */
 #garden, .labels, .dock, .corner, .hint { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
 .label, .dock button, .player { -webkit-user-drag: none; }
+body.dragging-view .labels { opacity: 0; transition-duration: 0.15s; }
 body.dragging-view .labels .label { pointer-events: none; }
 body.dragging-view, body.dragging-view .label { cursor: grabbing; }
 

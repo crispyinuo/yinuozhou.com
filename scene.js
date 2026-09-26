@@ -665,6 +665,121 @@ function init() {
     [-0.16, 0.16].forEach((x) => mesh(box(0.3, 0.4, 0.01), "#fbf7ee", stand, { x, y: 1.22, z: 0.03, rx: -0.4 }));
   }
 
+  // Photography corner: a camera on a tripod framing the flower beds, with prints drying on a line
+  const photoSpot = new THREE.Vector2(12.4, 12.3);
+  {
+    const g = new THREE.Group();
+    const tri = new THREE.Group();
+    g.add(tri);
+    [0, 2.1, 4.2].forEach((a) => mesh(cyl(0.035, 0.035, 1.7, 4), "#2f2d33", tri, { x: Math.sin(a) * 0.34, y: 0.8, z: Math.cos(a) * 0.34, rx: Math.cos(a) * 0.22, rz: -Math.sin(a) * 0.22 }));
+    const body = new THREE.Group();
+    body.position.y = 1.72;
+    body.rotation.y = -0.5;
+    tri.add(body);
+    mesh(box(0.62, 0.4, 0.3), "#2f2d33", body, {});
+    mesh(box(0.62, 0.1, 0.31), "#c9c2b4", body, { y: 0.22 }); // silver top plate
+    mesh(box(0.18, 0.14, 0.2), "#2f2d33", body, { x: -0.12, y: 0.3 }); // viewfinder hump
+    mesh(cyl(0.16, 0.18, 0.34, 12), "#1f1e24", body, { z: 0.3, rx: Math.PI / 2 });
+    mesh(cyl(0.12, 0.12, 0.02, 12), "#6f86a8", body, { z: 0.48, rx: Math.PI / 2, m: mat("#6f86a8", { roughness: 0.2, metalness: 0.4 }) });
+    mesh(cyl(0.05, 0.05, 0.06, 8), "#c9c2b4", body, { x: 0.2, y: 0.3, z: 0.04 }); // shutter dial
+    mesh(box(0.14, 0.02, 0.1), "#f4efe3", body, { x: 0.22, y: 0.26, z: -0.1, m: mat("#fff6d8", { emissive: "#fff6d8", emissiveIntensity: 0.4 }) });
+    tri.scale.setScalar(1.35);
+    // camera bag
+    mesh(box(0.6, 0.42, 0.34), "#8a5a3b", g, { x: 0.9, y: 0.21, z: 0.4, ry: 0.4 });
+    mesh(box(0.62, 0.08, 0.36), "#6f4630", g, { x: 0.9, y: 0.44, z: 0.4, ry: 0.4 });
+    // prints on a line between two posts
+    const line = new THREE.Group();
+    line.position.set(-1.6, 0, -0.4);
+    line.rotation.y = 0.5;
+    g.add(line);
+    [-1, 1].forEach((k) => mesh(cyl(0.05, 0.06, 1.7, 5), C.woodDark, line, { x: k * 1.1, y: 0.85 }));
+    mesh(cyl(0.01, 0.01, 2.2, 4), C.ink, line, { y: 1.6, rz: Math.PI / 2, cast: false });
+    ["#8fbfe6", "#f0afc2", "#a9c38f"].forEach((c, i) => {
+      const x = -0.7 + i * 0.7;
+      mesh(box(0.42, 0.5, 0.02), "#fffdf7", line, { x, y: 1.3, rz: (i - 1) * 0.08 });
+      mesh(box(0.34, 0.32, 0.025), c, line, { x, y: 1.35, rz: (i - 1) * 0.08, cast: false });
+      mesh(box(0.05, 0.1, 0.04), "#d8b56a", line, { x, y: 1.58, cast: false });
+    });
+    place(g, photoSpot.x, photoSpot.y, 1.9, 0.5);
+  }
+
+  // Music corner: a record player that spins, a guitar on its stand and a little speaker
+  {
+    const g = new THREE.Group();
+    // side table with the turntable
+    mesh(box(1.2, 0.08, 0.8), C.woodLight, g, { y: 0.9 });
+    [-0.5, 0.5].forEach((x) => [-0.32, 0.32].forEach((z) => mesh(box(0.07, 0.9, 0.07), C.woodDark, g, { x, y: 0.45, z })));
+    mesh(box(1.0, 0.16, 0.68), "#c98a5d", g, { y: 1.02 });
+    const vinyl = new THREE.Group();
+    vinyl.position.set(-0.12, 1.12, 0);
+    g.add(vinyl);
+    mesh(cyl(0.3, 0.3, 0.025, 24), "#1f1e24", vinyl, {});
+    mesh(cyl(0.1, 0.1, 0.03, 16), "#e36b4f", vinyl, {});
+    mesh(box(0.04, 0.03, 0.4), "#c9c2b4", g, { x: 0.3, y: 1.16, z: 0.02, ry: 0.5 });
+    animated.push((t) => (vinyl.rotation.y = -t * 2.2));
+    // a stack of records beside the table
+    ["#e36b4f", "#6c61b8", "#f2c14e"].forEach((c, i) => mesh(box(0.6, 0.6, 0.03), c, g, { x: -1.0, y: 0.3, z: -0.1 + i * 0.05, rx: -0.12 }));
+    // guitar on a stand
+    const gtr = new THREE.Group();
+    gtr.position.set(1.15, 0, 0.1);
+    gtr.rotation.set(-0.2, -0.4, 0.12);
+    g.add(gtr);
+    mesh(new THREE.SphereGeometry(0.3, 12, 8), "#d08a4c", gtr, { y: 0.42 }).scale.set(1, 1, 0.35);
+    mesh(new THREE.SphereGeometry(0.24, 12, 8), "#d08a4c", gtr, { y: 0.8 }).scale.set(1, 1, 0.35);
+    mesh(cyl(0.08, 0.08, 0.02, 12), "#3a2a20", gtr, { y: 0.66, z: 0.11, rx: Math.PI / 2 });
+    mesh(box(0.08, 0.8, 0.05), "#6d4a2f", gtr, { y: 1.35 });
+    mesh(box(0.14, 0.2, 0.05), "#4a3325", gtr, { y: 1.82 });
+    mesh(box(0.04, 0.5, 0.2), C.ink, g, { x: 1.15, y: 0.25, z: -0.1 });
+    // speaker
+    mesh(box(0.5, 0.8, 0.44), "#3b3a40", g, { x: -0.2, y: 0.4, z: 0.9 });
+    [0.58, 0.28].forEach((y, i) => mesh(cyl(i ? 0.14 : 0.09, i ? 0.14 : 0.09, 0.03, 14), "#6b6a72", g, { x: -0.2, y, z: 1.13, rx: Math.PI / 2 }));
+    // notes drifting up from the record
+    const notes = [0, 1, 2].map((i) => {
+      const n = new THREE.Group();
+      mesh(new THREE.SphereGeometry(0.1, 8, 6), C.ink, n, { cast: false }).scale.set(1.25, 0.85, 1);
+      mesh(box(0.03, 0.34, 0.03), C.ink, n, { x: 0.1, y: 0.17, cast: false });
+      if (i !== 1) mesh(box(0.14, 0.04, 0.03), C.ink, n, { x: 0.17, y: 0.33, rz: -0.45, cast: false });
+      g.add(n);
+      return n;
+    });
+    animated.push((t) => notes.forEach((n, i) => {
+      const k = (t * 0.25 + i / 3) % 1;
+      n.position.set(-0.12 + Math.sin(t * 1.3 + i * 2) * 0.35, 1.4 + k * 1.6, Math.cos(t + i) * 0.2);
+      n.scale.setScalar(Math.sin(k * Math.PI) * 1.2);
+    }));
+    g.scale.setScalar(1.25);
+    place(g, 9.4, 8.2, 1.9, -0.8);
+  }
+
+  // The cats' corner: a litter box, food and water bowls, a bed and a scratching post
+  const catCorner = new THREE.Vector2(-12.6, 9.8);
+  {
+    const g = new THREE.Group();
+    // litter box
+    mesh(box(1.0, 0.28, 0.7), "#9fc2c9", g, { x: -0.7, y: 0.14, z: -0.4 });
+    mesh(box(0.86, 0.04, 0.56), "#e6dccb", g, { x: -0.7, y: 0.27, z: -0.4, cast: false });
+    for (let i = 0; i < 6; i++) mesh(new THREE.DodecahedronGeometry(0.035, 0), "#cbbfa8", g, { x: -1.05 + Math.random() * 0.7, y: 0.3, z: -0.6 + Math.random() * 0.4, cast: false });
+    mesh(box(0.1, 0.36, 0.22), "#e36b4f", g, { x: -0.2, y: 0.18, z: -0.9, ry: 0.3 }); // scoop
+    // food + water bowls on a little mat
+    mesh(box(1.0, 0.02, 0.5), "#f0afc2", g, { x: 0.55, y: 0.01, z: 0.55, cast: false });
+    [[0.3, "#c98a5d"], [0.8, "#8fbfe6"]].forEach(([x, fill]) => {
+      mesh(cyl(0.2, 0.15, 0.14, 12), "#fbf7ee", g, { x, y: 0.08, z: 0.55 });
+      mesh(cyl(0.16, 0.16, 0.02, 12), fill, g, { x, y: 0.15, z: 0.55, cast: false });
+    });
+    for (let i = 0; i < 5; i++) mesh(new THREE.DodecahedronGeometry(0.03, 0), "#8a5a3b", g, { x: 0.3 + (Math.random() - 0.5) * 0.18, y: 0.18, z: 0.55 + (Math.random() - 0.5) * 0.18, cast: false });
+    mesh(new THREE.TorusGeometry(0.06, 0.02, 5, 10), "#6f8d58", g, { x: 0.1, y: 0.02, z: 0.9, rx: Math.PI / 2 }); // a fish-shaped treat, roughly
+    // round bed
+    mesh(new THREE.TorusGeometry(0.42, 0.14, 8, 18), "#c7b6e0", g, { x: 0.9, y: 0.14, z: -0.5, rx: Math.PI / 2 });
+    mesh(cyl(0.4, 0.4, 0.08, 18), "#ece3f5", g, { x: 0.9, y: 0.06, z: -0.5 });
+    // scratching post
+    mesh(box(0.6, 0.08, 0.6), "#e6dccb", g, { x: -1.4, y: 0.04, z: 0.6 });
+    mesh(cyl(0.12, 0.12, 1.2, 8), "#c9a56b", g, { x: -1.4, y: 0.64, z: 0.6 });
+    mesh(box(0.5, 0.08, 0.5), "#e6dccb", g, { x: -1.4, y: 1.26, z: 0.6 });
+    mesh(new THREE.SphereGeometry(0.07, 6, 4), "#e36b4f", g, { x: -1.2, y: 0.95, z: 0.78 });
+    g.scale.setScalar(1.15);
+    place(g, catCorner.x, catCorner.y, 1.9, 0.6);
+  }
+
   /* ───────────── Gate ───────────── */
   {
     const g = new THREE.Group();
@@ -802,45 +917,53 @@ function init() {
     world.add(tuftI);
   }
 
-  /* ───────────── Life: a cat, butterflies, clouds ───────────── */
-  {
-    // a little black cat, head toward +x
+  /* ───────────── Life: two cats, butterflies, clouds ───────────── */
+  // Zoe's two cats, a black cat and a tabby, wander the whole island. Each picks a spot,
+  // strolls there around anything in the way, sits a moment to look about, and now and
+  // then wanders back to the food bowls.
+  const catAvoid = [
+    { x: 0, z: 0, r: 3.4 }, // fountain
+    ...LANDMARKS.map((L) => ({ x: L.pos[0], z: L.pos[1], r: L.r * 0.9 })),
+    { x: -2.4, z: R - 1.2, r: 0.7 }, { x: 2.4, z: R - 1.2, r: 0.7 }, // gate pillars
+    ...obstacles,
+  ];
+  const EDGE = R - 2.2;
+  const freeSpot = (x, z, pad) => Math.hypot(x, z) < EDGE - pad && catAvoid.every((o) => Math.hypot(x - o.x, z - o.z) > o.r + pad);
+  // the spot just in front of the bowls, on the side facing the fountain
+  const bowlSpot = catCorner.clone().add(catCorner.clone().normalize().multiplyScalar(-2.5));
+  function wanderingCat({ fur, eye, stripe, belly, start }) {
     const cat = new THREE.Group();
     world.add(cat);
-    const fur = "#2e2c33", eye = "#e8d36a";
     const bodyG = new THREE.Group(); // everything above the legs bobs together
     cat.add(bodyG);
     mesh(box(0.95, 0.42, 0.42), fur, bodyG, { y: 0.52 });
+    if (belly) mesh(box(0.5, 0.06, 0.34), belly, bodyG, { x: 0.12, y: 0.3 });
+    if (stripe) [-0.28, -0.04, 0.2].forEach((x) => mesh(box(0.08, 0.44, 0.44), stripe, bodyG, { x, y: 0.53, cast: false }));
     const head = new THREE.Group();
     head.position.set(0.56, 0.78, 0);
     bodyG.add(head);
     mesh(box(0.42, 0.38, 0.4), fur, head, {});
+    if (stripe) mesh(box(0.3, 0.06, 0.41), stripe, head, { y: 0.14, cast: false });
+    if (belly) mesh(box(0.06, 0.16, 0.24), belly, head, { x: 0.2, y: -0.1, cast: false });
     [-0.12, 0.12].forEach((z) => mesh(new THREE.ConeGeometry(0.09, 0.2, 4), fur, head, { x: 0.04, y: 0.26, z }));
     [0.1, -0.1].forEach((z) => mesh(box(0.06, 0.07, 0.06), null, head, { x: 0.2, y: 0.03, z, cast: false, m: mat(eye, { emissive: eye, emissiveIntensity: 0.35 }) }));
     const tail = mesh(cyl(0.05, 0.07, 0.7, 5).translate(0, 0.35, 0), fur, bodyG, { x: -0.44, y: 0.62, rz: 0.7 });
+    if (stripe) mesh(cyl(0.055, 0.055, 0.14, 5), stripe, tail, { y: 0.5, cast: false });
     // legs swing from the hip, not the middle
     const legGeo = box(0.12, 0.34, 0.12).translate(0, -0.17, 0);
     const legs = [[0.32, 0.14], [0.32, -0.14], [-0.32, 0.14], [-0.32, -0.14]].map(([x, z]) => mesh(legGeo, fur, cat, { x, y: 0.34, z }));
-    // wanders the whole island: picks a spot, strolls there around anything in the way,
-    // then sits a moment and looks about before choosing the next one
-    const avoid = [
-      { x: 0, z: 0, r: 3.4 }, // fountain
-      ...LANDMARKS.map((L) => ({ x: L.pos[0], z: L.pos[1], r: L.r * 0.9 })),
-      { x: -2.4, z: R - 1.2, r: 0.7 }, { x: 2.4, z: R - 1.2, r: 0.7 }, // gate pillars
-      ...obstacles,
-    ];
-    const EDGE = R - 2.2;
-    const free = (x, z, pad) => Math.hypot(x, z) < EDGE - pad && avoid.every((o) => Math.hypot(x - o.x, z - o.z) > o.r + pad);
+
+    const pos = start.clone();
     function pickTarget() {
+      if (Math.random() < 0.2) return bowlSpot.clone();
       for (let i = 0; i < 60; i++) {
         const ang = Math.random() * Math.PI * 2, r = Math.sqrt(Math.random()) * EDGE;
         const x = Math.cos(ang) * r, z = Math.sin(ang) * r;
-        if (free(x, z, 1) && Math.hypot(x - pos.x, z - pos.y) > 4) return new THREE.Vector2(x, z);
+        if (freeSpot(x, z, 1) && Math.hypot(x - pos.x, z - pos.y) > 4) return new THREE.Vector2(x, z);
       }
       return new THREE.Vector2(RING, 0);
     }
-    const pos = new THREE.Vector2(RING, 0.5);
-    let heading = Math.PI / 2, target = pickTarget(), rest = 0, walk = 1, stride = 0, best = Infinity, stuck = 0;
+    let heading = Math.random() * 6, target = pickTarget(), rest = Math.random() * 3, walk = 0, stride = 0, best = Infinity, stuck = 0;
     const want = new THREE.Vector2(), away = new THREE.Vector2();
     animated.push((t, dt) => {
       if (rest > 0) {
@@ -851,10 +974,10 @@ function init() {
 
       want.subVectors(target, pos);
       const d = want.length();
-      if (rest <= 0 && d < 0.5) rest = 2 + Math.random() * 5;
+      if (rest <= 0 && d < 0.5) rest = target.equals(bowlSpot) ? 6 + Math.random() * 4 : 2 + Math.random() * 5;
       want.normalize();
       // gently push away from anything close
-      avoid.forEach((o) => {
+      catAvoid.forEach((o) => {
         away.set(pos.x - o.x, pos.y - o.z);
         const gap = away.length() - o.r;
         if (gap < 1.4) want.addScaledVector(away.normalize(), (1.4 - gap) * 1.6);
@@ -883,6 +1006,8 @@ function init() {
       tail.rotation.x = Math.sin(t * 1.6) * (0.25 + 0.2 * (1 - walk));
     });
   }
+  wanderingCat({ fur: "#2e2c33", eye: "#e8d36a", start: new THREE.Vector2(RING, 0.5) });
+  wanderingCat({ fur: "#d9955a", eye: "#8fbf5a", stripe: "#a8653a", belly: "#f3dcc0", start: new THREE.Vector2(-RING, -1) });
   for (let i = 0; i < 5; i++) {
     const b = new THREE.Group();
     world.add(b);

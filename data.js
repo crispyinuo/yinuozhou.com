@@ -21,6 +21,20 @@ window.PROJECTS = [
   },
   {
     side: "a",
+    title: "Fur the Money 小猫有薪事",
+    format: "iOS & Mac App · coming soon",
+    img: "assets/img/fur-the-money.jpg",
+    skills: ["Swift", "SwiftUI", "WidgetKit", "ActivityKit", "Screen Time API", "Foundation Models", "Vision", "Metal"],
+    desc: [
+      "A payday tracker drawn as a hand-illustrated, three-floor office, where a little black cat stands in for you and your pay ticks up by the second. One SwiftUI codebase runs natively on iPhone, iPad and Mac, in English and Simplified Chinese.",
+      "Badge in at the front desk and the day's pay follows your real contract: monthly, yearly or hourly pay, per-day schedules, paid or unpaid lunch, short-day proration and overtime rules. The shift also rides along in the Dynamic Island, on the Lock Screen and in a Home Screen widget, accurate even with the app closed.",
+      "Opt in and time spent in your chosen slacking apps is counted as slacking off, through the Screen Time API on iPhone (the app only ever sees opaque tokens) and the frontmost app on Mac. Paychecks can be imported from payslip screenshots or bank exports, read privately on device with Vision and Apple's Foundation Models, and everything syncs through iCloud with conflict-aware merging.",
+      "Showing up on time earns fish snacks to spend on furniture for the office, and the boss's flip chart tracks savings goals from the pay earned since. The cat moves through eight-frame hand-drawn cycles and blinks with a custom Metal shader.",
+    ],
+    links: [],
+  },
+  {
+    side: "a",
     title: "Muse",
     format: "Web · AI music studio",
     img: "assets/img/muse.jpg",

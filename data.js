@@ -31,7 +31,7 @@ window.PROJECTS = [
       "Opt in and time spent in your chosen slacking apps is counted as slacking off, through the Screen Time API on iPhone (the app only ever sees opaque tokens) and the frontmost app on Mac. Paychecks can be imported from payslip screenshots or bank exports, read privately on device with Vision and Apple's Foundation Models, and everything syncs through iCloud with conflict-aware merging.",
       "Showing up on time earns fish snacks to spend on furniture for the office, and the boss's flip chart tracks savings goals from the pay earned since. The cat moves through eight-frame hand-drawn cycles and blinks with a custom Metal shader.",
     ],
-    links: [],
+    links: [{ label: "Website", href: "https://crispyinuo.github.io/furthemoney-site/" }],
   },
   {
     side: "a",

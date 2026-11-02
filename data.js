@@ -22,16 +22,19 @@ window.PROJECTS = [
   {
     side: "a",
     title: "Fur the Money 小猫有薪事",
-    format: "iOS & Mac App · coming soon",
+    format: "iOS & Mac App · on the App Store",
     img: "assets/img/fur-the-money.jpg",
     skills: ["Swift", "SwiftUI", "WidgetKit", "ActivityKit", "Screen Time API", "Foundation Models", "Vision", "Metal"],
     desc: [
-      "A payday tracker drawn as a hand-illustrated, three-floor office, where a little black cat stands in for you and your pay ticks up by the second. One SwiftUI codebase runs natively on iPhone, iPad and Mac, in English and Simplified Chinese.",
-      "Badge in at the front desk and the day's pay follows your real contract: monthly, yearly or hourly pay, per-day schedules, paid or unpaid lunch, short-day proration and overtime rules. The shift also rides along in the Dynamic Island, on the Lock Screen and in a Home Screen widget, accurate even with the app closed.",
-      "Opt in and time spent in your chosen slacking apps is counted as slacking off, through the Screen Time API on iPhone (the app only ever sees opaque tokens) and the frontmost app on Mac. Paychecks can be imported from payslip screenshots or bank exports, read privately on device with Vision and Apple's Foundation Models, and everything syncs through iCloud with conflict-aware merging.",
-      "Showing up on time earns fish snacks to spend on furniture for the office, and the boss's flip chart tracks savings goals from the pay earned since. The cat moves through eight-frame hand-drawn cycles and blinks with a custom Metal shader.",
+      "A payday tracker drawn as a hand-illustrated, three-floor office, where a little black cat stands in for you and your pay ticks up by the second. Out now on the App Store: one SwiftUI codebase runs natively on iPhone, iPad and Mac, in English, Simplified and Traditional Chinese, Japanese, Korean and French.",
+      "Badge in at the front desk and the day's pay follows your real contract: monthly, yearly or hourly pay, per-day schedules, night shifts that run past midnight, paid or unpaid lunch, short-day proration and overtime counted your way. The shift also rides along in the Dynamic Island, on the Lock Screen and in Home Screen widgets, accurate even with the app closed.",
+      "Paychecks are kept by month and year and can be imported from payslip screenshots, CSV or Excel exports, read privately on device with Vision and Apple's Foundation Models; missed badge-ins can be filled in from the calendar, and everything syncs through iCloud with conflict-aware merging. No ads, no account, no analytics and no developer-run servers.",
+      "Opt in and time spent in your chosen slacking apps is counted as slacking off, through the Screen Time API on iPhone (the app only ever sees opaque tokens) and the frontmost app on Mac. Clocking in and focus sessions earn fish snacks to spend on furniture for the office, and the boss's flip chart tracks savings goals. The cat moves through eight-frame hand-drawn cycles, blinks with a custom Metal shader, and meows in recordings of Nono, the real cat.",
     ],
-    links: [{ label: "Website", href: "https://crispyinuo.github.io/furthemoney-site/" }],
+    links: [
+      { label: "App Store", href: "https://apps.apple.com/app/fur-the-money/id6812616772" },
+      { label: "Website", href: "https://crispyinuo.github.io/furthemoney-site/" },
+    ],
   },
   {
     side: "a",

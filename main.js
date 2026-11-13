@@ -83,10 +83,27 @@
   $$(".role summary").forEach((sm) => sm.addEventListener("click", (e) => e.preventDefault()));
 
   /* ───────────── Projects ───────────── */
+  // A prize rosette for chart rankings: scalloped gold seal, stitched ring, two ribbon tails.
+  const rosette = (b) => {
+    const scallops = Array.from({ length: 14 }, (_, i) => {
+      const a = (i / 14) * Math.PI * 2;
+      return `<circle cx="${(60 + 41 * Math.cos(a)).toFixed(1)}" cy="${(54 + 41 * Math.sin(a)).toFixed(1)}" r="10.5"/>`;
+    }).join("");
+    return `<svg class="rosette" viewBox="0 0 120 150" role="img" aria-label="${esc(`${b.top}: ${b.big}, ${b.small}`)}">
+      <path class="tail-a" d="M38 84 22 144l16-9 9 13 13-56z"/>
+      <path class="tail-b" d="M82 84l16 60-16-9-9 13-13-56z"/>
+      <g class="seal">${scallops}<circle cx="60" cy="54" r="42"/></g>
+      <circle class="face" cx="60" cy="54" r="35"/>
+      <circle class="stitch" cx="60" cy="54" r="30.5"/>
+      <text class="r-top" x="60" y="37">${esc(b.top)}</text>
+      <text class="r-big${b.big.length > 4 ? " long" : ""}" x="60" y="${b.big.length > 4 ? 59 : 62}">${esc(b.big)}</text>
+      <text class="r-small" x="60" y="74">${esc(b.small)}</text>
+    </svg>`;
+  };
   const P = window.PROJECTS;
   $("#works").innerHTML = P.map((p, i) => `
     <button class="work" data-i="${i}" aria-haspopup="dialog">
-      <span class="work-img"><img src="${p.img}" alt="" loading="lazy" class="${p.fit === "contain" ? "contain" : ""}" /></span>
+      <span class="work-img"><img src="${p.img}" alt="" loading="lazy" class="${p.fit === "contain" ? "contain" : ""}" />${p.badge ? rosette(p.badge) : ""}</span>
       <span class="work-meta">
         <span class="work-fmt">${esc(p.format)}${p.event ? " · " + esc(p.event.label) : ""}</span>
         <span class="work-title">${esc(p.title)}</span>
@@ -103,8 +120,9 @@
   const ytFrame = (id, title) =>
     `<iframe class="video" src="https://www.youtube-nocookie.com/embed/${id}?rel=0" title="${esc(title)}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen"></iframe>`;
 
-  function openModal({ media = "", kicker = "", title, feat = "", award = "", desc = [], shots = [], skills = [], links = [] }) {
+  function openModal({ media = "", badge = "", kicker = "", title, feat = "", award = "", desc = [], shots = [], skills = [], links = [] }) {
     $("#modal-media").innerHTML = media;
+    $("#modal-badge").innerHTML = badge;
     $("#modal-kicker").innerHTML = kicker;
     $("#modal-title").textContent = title;
     $("#modal-feat").textContent = feat;
@@ -132,6 +150,7 @@
     else media = `<img src="${p.img}" alt="${esc(p.title)}" />`;
     openModal({
       media,
+      badge: p.badge ? rosette(p.badge) : "",
       kicker: esc(p.format) + (p.event ? ` · <a href="${p.event.href}" target="_blank" rel="noopener">${esc(p.event.label)}</a>` : ""),
       title: p.title,
       feat: p.feat ? `with ${p.feat.join(", ")}` : "",

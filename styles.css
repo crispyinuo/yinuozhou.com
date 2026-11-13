@@ -567,7 +567,7 @@ section > .lede { display: none; }
 .work:hover, .work:focus-visible { transform: translateY(-5px); box-shadow: 0 11px 0 var(--card-edge), 0 24px 34px -26px rgba(46, 61, 47, 0.7); }
 .work:active { transform: translateY(3px); box-shadow: 0 2px 0 var(--card-edge); }
 .work:focus-visible { outline: 3px solid rgba(111, 141, 88, 0.55); outline-offset: 3px; }
-.work-img { display: block; aspect-ratio: 16 / 10; background: #efe8d9; overflow: hidden; }
+.work-img { position: relative; display: block; aspect-ratio: 16 / 10; background: #efe8d9; overflow: hidden; }
 .work-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s var(--ease); }
 .work-img img.contain { object-fit: contain; padding: 10px 0; }
 .work:hover .work-img img { transform: scale(1.04); }
@@ -699,7 +699,23 @@ section > .lede { display: none; }
 .modal-media video, .modal-media iframe.video { display: block; width: 100%; aspect-ratio: 16 / 9; max-height: 62svh; border: 0; background: #000; }
 .modal-media iframe.audio { display: block; width: 100%; height: 166px; border: 0; }
 .modal-media img { width: 100%; max-height: 52svh; object-fit: contain; background: #efe8d9; }
-.modal-body { padding: 24px clamp(22px, 5vw, 40px) 32px; }
+.modal-body { position: relative; padding: 24px clamp(22px, 5vw, 40px) 32px; }
+.modal-badge { position: absolute; top: -112px; right: clamp(14px, 4vw, 36px); width: 138px; pointer-events: none; }
+.modal-badge:empty { display: none; }
+/* Chart-ranking rosette */
+.rosette { display: block; width: 100%; height: auto; overflow: visible; transform: rotate(8deg); filter: drop-shadow(0 3px 0 rgba(122, 90, 31, 0.28)) drop-shadow(0 10px 12px rgba(46, 61, 47, 0.3)); }
+.work-img .rosette { position: absolute; top: 8px; right: 8px; width: 96px; transition: transform 0.45s var(--bounce); }
+.work:hover .work-img .rosette, .work:focus-visible .work-img .rosette { transform: rotate(-4deg) scale(1.08); }
+.rosette .tail-a { fill: var(--clay); }
+.rosette .tail-b { fill: var(--moss); }
+.rosette .seal { fill: #e9c46a; }
+.rosette .face { fill: #fff7e0; }
+.rosette .stitch { fill: none; stroke: var(--clay); stroke-width: 1.2; stroke-dasharray: 3 3.2; opacity: 0.75; }
+.rosette text { text-anchor: middle; font-family: var(--font); font-weight: 900; fill: var(--ink); }
+.rosette .r-top { font-size: 7.6px; letter-spacing: 0.07em; text-transform: uppercase; fill: var(--honey-ink); }
+.rosette .r-big { font-size: 25px; letter-spacing: -0.02em; }
+.rosette .r-big.long { font-size: 16.5px; }
+.rosette .r-small { font-size: 8.6px; fill: var(--ink); }
 .modal-body .kicker { padding-right: 12px; margin-right: 50px; }
 .modal-body .kicker a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
 .modal h3 { font-size: clamp(1.9rem, 4.5vw, 2.6rem); font-weight: 900; line-height: 1.05; letter-spacing: -0.02em; margin: 0; }

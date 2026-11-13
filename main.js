@@ -103,13 +103,21 @@
   const ytFrame = (id, title) =>
     `<iframe class="video" src="https://www.youtube-nocookie.com/embed/${id}?rel=0" title="${esc(title)}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen"></iframe>`;
 
-  function openModal({ media = "", kicker = "", title, feat = "", award = "", desc = [], skills = [], links = [] }) {
+  function openModal({ media = "", kicker = "", title, feat = "", award = "", desc = [], shots = [], skills = [], links = [] }) {
     $("#modal-media").innerHTML = media;
     $("#modal-kicker").innerHTML = kicker;
     $("#modal-title").textContent = title;
     $("#modal-feat").textContent = feat;
     $("#modal-award").textContent = award;
     $("#modal-desc").innerHTML = desc.map((d) => `<p>${esc(d)}</p>`).join("");
+    // chart screenshots, pinned up like snapshots; each opens full size
+    $("#modal-shots").innerHTML = shots.length
+      ? `<p class="shots-title">On the charts</p><div class="shots-row">` + shots.map((s) => `
+        <a class="shot${s.wide ? " wide" : ""}" href="${s.src}" target="_blank" rel="noopener">
+          <img src="${s.src}" alt="App Store chart screenshot: ${esc(s.cap)}" loading="lazy" />
+          <span>${esc(s.cap)}</span>
+        </a>`).join("") + `</div>`
+      : "";
     $("#modal-skills").innerHTML = skills.map((k) => `<span>${esc(k)}</span>`).join("");
     $("#modal-links").innerHTML = links
       .map((l) => `<a class="link" href="${l.href}" target="_blank" rel="noopener">${esc(l.label)}${isExternal(l.href) ? " ↗" : ""}</a>`)
@@ -129,6 +137,7 @@
       feat: p.feat ? `with ${p.feat.join(", ")}` : "",
       award: p.award ? p.award.replace(/^\S+\s/, "") : "",
       desc: p.desc,
+      shots: p.shots,
       skills: p.skills,
       links: p.links,
     });

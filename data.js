@@ -7,9 +7,15 @@ window.PROJECTS = [
     title: "Nombook",
     format: "iOS App · on the App Store",
     img: "assets/img/nombook-og.png",
+    award: "🏆 #13 on the App Store · Food & Drink chart",
+    shots: [
+      { src: "assets/img/nombook-rank-kr.jpg", cap: "South Korea · iPad · Food & Drink" },
+      { src: "assets/img/nombook-rank-jp.jpg", cap: "Japan · iPad · Food & Drink" },
+      { src: "assets/img/nombook-rank-cn.jpg", cap: "China · iPhone · Food & Drink" },
+    ],
     skills: ["Swift", "SwiftUI", "Foundation Models", "Vision", "CloudKit"],
     desc: [
-      "A cozy little recipe diary for iPhone — a recipe keeper, meal planner and cooking diary in one. Solo-built and launched in 7 languages, reaching thousands of downloads within its first month.",
+      "A cozy little recipe diary for iPhone — a recipe keeper, meal planner and cooking diary in one. Solo-built and launched in 7 languages, reaching thousands of downloads within its first month and climbing as high as #13 on the App Store's Food & Drink chart.",
       "Save the dishes you actually cook, plan the week, shop from the list, cook step by step with timers, and write down how each one went.",
       "Recipes can be typed, pasted, saved from a link or scanned from a cookbook page or handwritten card, read and structured privately on device with Apple's Foundation Models and Vision OCR, then synced through private iCloud: no server, no account. Every recipe gets its own photo or one of 110+ hand-drawn covers, and each cook is logged with half-star ratings, notes and photos.",
       "Every feature is free: no account, no ads, no subscription and nothing tracked.",
@@ -22,11 +28,15 @@ window.PROJECTS = [
   {
     side: "a",
     title: "Fur the Money 小猫有薪事",
-    format: "iOS & Mac App · on the App Store",
+    format: "iOS & Mac App · on the App Store · Android in progress",
     img: "assets/img/fur-the-money.jpg",
+    award: "🏆 Top 100 in 7 countries & regions · App Store charts",
+    shots: [
+      { src: "assets/img/fur-the-money-rank-cn.jpg", cap: "China · Mac App Store · Lifestyle", wide: true },
+    ],
     skills: ["Swift", "SwiftUI", "WidgetKit", "ActivityKit", "Screen Time API", "Foundation Models", "Vision", "Metal"],
     desc: [
-      "A payday tracker drawn as a hand-illustrated, three-floor office, where a little black cat stands in for you and your pay ticks up by the second. Out now on the App Store: one SwiftUI codebase runs natively on iPhone, iPad and Mac, in English, Simplified and Traditional Chinese, Japanese, Korean and French.",
+      "A payday tracker drawn as a hand-illustrated, three-floor office, where a little black cat stands in for you and your pay ticks up by the second. Out now on the App Store: one SwiftUI codebase runs natively on iPhone, iPad and Mac, in English, Simplified and Traditional Chinese, Japanese, Korean and French. It has reached the App Store's Top 100 charts in 7 countries and regions, and an Android version is in progress, on its way to a public launch.",
       "Badge in at the front desk and the day's pay follows your real contract: monthly, yearly or hourly pay, per-day schedules, night shifts that run past midnight, paid or unpaid lunch, short-day proration and overtime counted your way. The shift also rides along in the Dynamic Island, on the Lock Screen and in Home Screen widgets, accurate even with the app closed.",
       "Paychecks are kept by month and year and can be imported from payslip screenshots, CSV or Excel exports, read privately on device with Vision and Apple's Foundation Models; missed badge-ins can be filled in from the calendar, and everything syncs through iCloud with conflict-aware merging. No ads, no account, no analytics and no developer-run servers.",
       "Opt in and time spent in your chosen slacking apps is counted as slacking off, through the Screen Time API on iPhone (the app only ever sees opaque tokens) and the frontmost app on Mac. Clocking in and focus sessions earn fish snacks to spend on furniture for the office, and the boss's flip chart tracks savings goals. The cat moves through eight-frame hand-drawn cycles, blinks with a custom Metal shader, and meows in recordings of Nono, the real cat.",

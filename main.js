@@ -17,6 +17,12 @@
   let current = null;
   let shownTimer;
 
+  // Each section has its own path (/work, /about, …); vercel.json serves index.html for them.
+  // Opened straight from disk there are no paths to rewrite, so fall back to a hash.
+  function route(id) {
+    const url = location.protocol === "file:" ? (id ? "#" + id : location.pathname) : "/" + id + location.search;
+    history.replaceState(null, "", url);
+  }
   function show(id) {
     const sec = sections[id];
     current = id;
@@ -32,7 +38,7 @@
     $(`.tabs button[data-tab="${id}"]`).scrollIntoView({ inline: "center", block: "nearest" });
     $$(".dock button").forEach((b) => b.setAttribute("aria-current", b.dataset.open === id));
     scroller.scrollTop = 0;
-    history.replaceState(null, "", "#" + id);
+    route(id);
     dispatchEvent(new CustomEvent("garden:focus", { detail: id }));
   }
   function open(id) {
@@ -54,7 +60,7 @@
     clearTimeout(shownTimer);
     body.classList.remove("is-open", "page-shown");
     $$(".dock button").forEach((b) => b.setAttribute("aria-current", false));
-    history.replaceState(null, "", location.pathname);
+    route("");
     dispatchEvent(new CustomEvent("garden:overview"));
     setTimeout(() => { if (!current) page.hidden = true; }, 900);
     $(`.dock button[data-open="${was}"]`)?.focus({ preventScroll: true });
@@ -162,6 +168,8 @@
   );
 
   /* ───────────── Deep links ───────────── */
-  const initial = location.hash.slice(1);
+  // /work is the address; #work still opens it, for links shared before paths existed
+  const fromPath = location.pathname.replace(/^\/+|\/+$/g, "");
+  const initial = sections[fromPath] ? fromPath : location.hash.slice(1);
   if (sections[initial]) addEventListener("load", () => setTimeout(() => open(initial), 300));
 })();

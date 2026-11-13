@@ -24,7 +24,7 @@ A cat strolls round the fountain, the chimney smokes and the trees sway.
 ```
 index.html   intro, dock, icon sprite, and every section page's content (all real HTML)
 data.js      projects, dance / choir videos, songs — edit here to add things
-main.js      section pages & tabs, dock, deep links (#work, #play…), project & media modal
+main.js      section pages & tabs, dock, deep links (/work, /play…), project & media modal
 scene.js     the three.js island, the page-header diorama and the rendered keepsakes
 styles.css   typography and layout
 assets/      images, demo videos (re-encoded to 720p), résumé PDF

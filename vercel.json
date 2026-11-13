@@ -1,0 +1,6 @@
+{
+  "trailingSlash": false,
+  "rewrites": [
+    { "source": "/:section(about|experience|work|studies|play|contact)", "destination": "/index.html" }
+  ]
+}

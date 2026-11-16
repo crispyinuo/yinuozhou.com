@@ -29,7 +29,7 @@ window.PROJECTS = [
     side: "a",
     title: "Fur the Money 小猫有薪事",
     format: "iOS & Mac App · on the App Store · Android in progress",
-    img: "assets/img/fur-the-money.jpg",
+    img: "assets/img/fur-the-money-mac.jpg",
     badge: { top: "App Store", big: "Top 100", small: "7 countries" },
     shots: [
       { src: "assets/img/fur-the-money-rank-cn.jpg", cap: "China · Mac App Store · Lifestyle", wide: true },

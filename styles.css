@@ -700,12 +700,16 @@ section > .lede { display: none; }
 .modal-media iframe.audio { display: block; width: 100%; height: 166px; border: 0; }
 .modal-media img { width: 100%; max-height: 52svh; object-fit: contain; background: #efe8d9; }
 .modal-body { position: relative; padding: 24px clamp(22px, 5vw, 40px) 32px; }
-.modal-badge { position: absolute; top: -112px; right: clamp(14px, 4vw, 36px); width: 138px; pointer-events: none; }
+/* the rosette sits in the open space beside the title, never over the artwork */
+.modal-badge { float: right; width: clamp(92px, 22vw, 124px); margin: 2px 4px 8px 16px; }
 .modal-badge:empty { display: none; }
 /* Chart-ranking rosette */
 .rosette { display: block; width: 100%; height: auto; overflow: visible; transform: rotate(8deg); filter: drop-shadow(0 3px 0 rgba(122, 90, 31, 0.28)) drop-shadow(0 10px 12px rgba(46, 61, 47, 0.3)); }
-.work-img .rosette { position: absolute; top: 8px; right: 8px; width: 96px; transition: transform 0.45s var(--bounce); }
-.work:hover .work-img .rosette, .work:focus-visible .work-img .rosette { transform: rotate(-4deg) scale(1.08); }
+.work-meta { position: relative; }
+.work-meta > .rosette { position: absolute; top: 12px; right: 12px; width: 70px; transition: transform 0.45s var(--bounce); }
+.work:hover .work-meta > .rosette, .work:focus-visible .work-meta > .rosette { transform: rotate(-4deg) scale(1.08); }
+.work.has-badge .work-fmt, .work.has-badge .work-title { padding-right: 78px; }
+.work.has-badge .work-title { min-height: 3.4rem; }
 .rosette .tail-a { fill: var(--clay); }
 .rosette .tail-b { fill: var(--moss); }
 .rosette .seal { fill: #e9c46a; }

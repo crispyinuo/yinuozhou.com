@@ -102,9 +102,10 @@
   };
   const P = window.PROJECTS;
   $("#works").innerHTML = P.map((p, i) => `
-    <button class="work" data-i="${i}" aria-haspopup="dialog">
-      <span class="work-img"><img src="${p.img}" alt="" loading="lazy" class="${p.fit === "contain" ? "contain" : ""}" />${p.badge ? rosette(p.badge) : ""}</span>
+    <button class="work${p.badge ? " has-badge" : ""}" data-i="${i}" aria-haspopup="dialog">
+      <span class="work-img"><img src="${p.img}" alt="" loading="lazy" class="${p.fit === "contain" ? "contain" : ""}" /></span>
       <span class="work-meta">
+        ${p.badge ? rosette(p.badge) : ""}
         <span class="work-fmt">${esc(p.format)}${p.event ? " · " + esc(p.event.label) : ""}</span>
         <span class="work-title">${esc(p.title)}</span>
         ${p.award ? `<span class="work-award">${esc(p.award.split("·")[0].replace(/^\S+\s/, "").trim())}</span>` : ""}

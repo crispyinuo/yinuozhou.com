@@ -151,11 +151,19 @@
           <summary><span class="org">Luma AI</span><span class="when">2026 — now</span><span class="title">Software Engineer (Full-Stack) · Redwood City</span></summary>
           <div class="body">
             <ul>
-              <li>Built the tool platform for Luma's generative AI agent: custom MCP connectors end to end, letting the agent call any third-party tool via OAuth discovery with dynamic client registration and a stateless transport.</li>
-              <li>Designed the agent platform's security model against SSRF and cross-server prompt injection, and scoped its enterprise rollout: org allowlists, audit logging and on-prem reachability.</li>
-              <li>Shipped two-way agent integrations with Google Drive, Dropbox and Frame.io, unifying 6 OAuth flows into one API.</li>
-              <li>Integrated image, video and TTS models, including Gemini, into the agent canvas; built research mode and agent question blocks.</li>
-              <li>Led engineering on Mini Apps, one-click AI image and video apps, from prototype to paid launch in 1.5 weeks.</li>
+              <li>Building Luma's MCP server and tools, so any customer's AI agent can discover and call Luma's image and video models.</li>
+              <li>Building Brand Kit Intelligence and the Brand Kit MCP, which learn a customer's brand assets and apply them to every generation.</li>
+              <li>Architected the MCP connector platform (OAuth discovery, stateless transport), one standard pattern for plugging external services into Luma.</li>
+              <li>Hardened agent tool calls against SSRF and prompt injection and added a Redis rate limiter before opening the platform to third-party MCP servers.</li>
+              <li>Primary engineer on Mini Apps (Relight Studio, Background Swap, Camera Angles, Face Swap), each taken from concept to paid launch in 1.5 weeks.</li>
+              <li>Built Relight Studio's visual light-rig editor: creators drag key, fill and rim lights around a stage, and the rig compiles into a precise prompt for the relighting model.</li>
+              <li>Built a shared creative app kit (responsive intake, mobile bottom sheet, swipeable full-screen result viewer) so each new Mini App shipped without new UI work.</li>
+              <li>Integrated image, video and text-to-speech models end to end on the AI canvas, from TypeScript APIs and async generation pipelines to the React UI, including 20 voices with speed, pitch and volume controls.</li>
+              <li>Shipped agent features on the canvas, including research mode and agent question blocks.</li>
+              <li>Built real-time collaborative commenting on the tldraw-based canvas, with per-viewer read state and deep links to threads.</li>
+              <li>Built two-way Google Drive, Dropbox and Frame.io integrations, unifying 6 OAuth flows behind one service and React hook and streaming uploads past a 200 MB cap.</li>
+              <li>Ran a 4-arm A/B test on the checkout credit-card gate and shipped the winner to 100%; instrumented features and built conversion funnels with entry attribution in PostHog.</li>
+              <li>Shipped 230 PRs in 5 months across Node.js/TypeScript services, Postgres and React, building daily with Claude Code.</li>
             </ul>
             <a class="link" href="https://lumalabs.ai/" target="_blank" rel="noopener">lumalabs.ai ↗</a>
           </div>

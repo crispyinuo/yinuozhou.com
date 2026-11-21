@@ -146,7 +146,9 @@ window.PROJECTS = [
       "Using Unity and Ultraleap's Unity package, we sculpted a virtual space where physics and sound coalesce.",
       "The key was integrating advanced hand tracking through Ultraleap's external camera, allowing intuitive, natural interaction with our virtual instruments.",
     ],
+    youtube: "WPDJxlBRNOw",
     links: [
+      { label: "Demo", href: "https://youtu.be/WPDJxlBRNOw" },
       { label: "Devpost", href: "https://devpost.com/software/harmony-blocks" },
       { label: "GitHub", href: "https://github.com/helenawsu/harmonyblocks/tree/NewMain" },
     ],
